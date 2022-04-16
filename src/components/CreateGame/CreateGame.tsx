@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "reactfire";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -7,8 +7,10 @@ import { GameForm } from "../";
 import API from "../../api";
 import { useStore } from "../../context";
 import { checkIfSearchIsActive } from "../../utils";
+import { GameActions } from "../../store/actions/game";
 
 export const CreateGame = () => {
+  const { dispatch } = useStore();
   const { data: user } = useUser();
   const {
     state: {
@@ -27,6 +29,8 @@ export const CreateGame = () => {
   };
 
   const handleClick = () => API.doSend({ type: "cancel-game" });
+
+  useEffect(() => dispatch({ type: GameActions.RESET_GAME_STATE }), [dispatch]);
 
   return (
     <Formik

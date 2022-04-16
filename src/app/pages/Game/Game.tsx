@@ -4,8 +4,10 @@ import { Box } from "@mui/material";
 import {
   Board,
   DitchGameDialog,
-  GamePanel,
   GameControls,
+  GameOverAlert,
+  GamePanel,
+  RivalBoard,
 } from "../../../components";
 import { useGameData } from "../../../utils";
 
@@ -17,10 +19,11 @@ export const Game = () => {
   return (
     <Box>
       <Board />
-      <Board />
+      <RivalBoard />
       <GamePanel />
       <GameControls />
       <DitchGameDialog />
+      <GameOverAlert />
     </Box>
   );
 };

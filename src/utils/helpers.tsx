@@ -4,15 +4,20 @@ import { Order } from "../components/GamesTable/types";
 import API from "../api";
 import { SetAlertType } from "../context";
 import { ActionType } from "../store/actions";
-import { MONTHS } from "../constants";
-import { GameRequestState } from "../store/state";
+import { AXIS_LENGTH, MONTHS } from "../constants";
+import { GameRequestState, SquareState } from "../store/state";
 import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 import { doc } from "firebase/firestore";
+import { RivalSquare } from "../components/RivalSquare/RivalSquare";
 
 export const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-export const renderSquare = (index: number) => {
-  return <Square key={index} index={index} />;
+export const renderSquare = (index: number, rival = false) => {
+  return rival ? (
+    <RivalSquare index={index} key={index} />
+  ) : (
+    <Square key={index} index={index} />
+  );
 };
 
 export const renderUnit = (
@@ -173,4 +178,40 @@ export const getBoardCoordinates = (index: number) => {
 
 export const getBoardIndex = ([x, y]: Array<number>) => {
   return y * 10 + x;
+};
+
+export const markAllSquaresAroundBattleshipOnBoard = ({
+  battleshipIndexes,
+  boundaryMark,
+  battleshipMark,
+  board,
+}: {
+  battleshipIndexes: Array<number>;
+  boundaryMark: SquareState;
+  board: Array<SquareState>;
+  battleshipMark: SquareState;
+}) => {
+  battleshipIndexes.forEach((index) => {
+    const [x, y] = getBoardCoordinates(index);
+    const minBorderX = x - 1 >= 0 ? x - 1 : 0;
+    const maxBorderX = x + 1 <= AXIS_LENGTH ? x + 1 : AXIS_LENGTH;
+    const minBorderY = y - 1 >= 0 ? y - 1 : 0;
+    const maxBorderY = y + 1 <= AXIS_LENGTH ? y + 1 : AXIS_LENGTH;
+
+    for (let i = minBorderX; i <= maxBorderX; i++) {
+      for (let j = minBorderY; j <= maxBorderY; j++) {
+        const borderIndex = getBoardIndex([i, j]);
+        board[borderIndex] = boundaryMark;
+      }
+    }
+  });
+
+  battleshipIndexes.forEach((index) => (board[index] = battleshipMark));
+};
+
+export const useRivalGameState = (uid: string) => {
+  const firestore = useFirestore();
+  const rivalRef = doc(firestore, `games/${uid}`);
+
+  return useFirestoreDocData(rivalRef);
 };

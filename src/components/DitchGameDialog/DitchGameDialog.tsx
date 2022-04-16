@@ -30,7 +30,6 @@ export const DitchGameDialog = () => {
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = () => {
     API.doSend({ type: "ditch-game" });
-    dispatch({ type: GameActions.DISCARD_DITCH_GAME_REQUEST });
   };
 
   return (

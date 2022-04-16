@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
+import { useFirestore, useUser } from "reactfire";
 import { updateDoc, doc } from "firebase/firestore";
 import { Box, Button } from "@mui/material";
 import API from "../../api";
@@ -17,7 +17,7 @@ export const GameControls = () => {
   const {
     state: {
       game: {
-        beforeGameState: { fleetPool },
+        beforeGameState: { fleetPool, gameBoard, battleshipIndexes },
       },
     },
     dispatch,
@@ -49,6 +49,8 @@ export const GameControls = () => {
     try {
       await updateDoc(gameDoc, {
         isEditable: false,
+        gameBoard,
+        battleshipIndexes,
       });
     } catch (error) {
       setAlert({

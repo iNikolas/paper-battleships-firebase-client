@@ -1,6 +1,6 @@
 import { LobbyActions } from "./lobby";
 import { GameActions } from "./game";
-import { Battleships, Direction } from "../state";
+import { Battleships, Direction, SquareState } from "../state";
 
 export const Actions = { ...LobbyActions, ...GameActions };
 
@@ -44,6 +44,11 @@ export interface ResetGameState {
   type: GameActions.RESET_GAME_STATE;
 }
 
+export interface SynchronizeGameStateWithServer {
+  type: GameActions.SYNCHRONIZE_GAME_STATE_WITH_SERVER;
+  payload: { battleshipIndexes: Array<string>; gameBoard: Array<SquareState> };
+}
+
 export type ActionType =
   | UpdateLobbyStateAction
   | RefuseDitchGameRequestAction
@@ -53,4 +58,5 @@ export type ActionType =
   | GetHighlightedIndexes
   | RemoveHighlighted
   | PlaceBattleshipOnBoard
-  | ResetGameState;
+  | ResetGameState
+  | SynchronizeGameStateWithServer;

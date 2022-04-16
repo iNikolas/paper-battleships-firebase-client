@@ -20,7 +20,6 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
         position: "absolute",
         top: 0,
         right: 0,
-        border: (theme) => `1px solid ${theme.palette.common.black}`,
         fontWeight: 600,
         width: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 5)`,
         height: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 5)`,
@@ -29,7 +28,8 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: (theme) => theme.palette.common.white,
+        backgroundColor: (theme) => theme.palette.primary.main,
+        color: (theme) => theme.palette.common.white,
         transform: "translate(25%, -50%)",
       }}
     >

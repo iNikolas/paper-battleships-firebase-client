@@ -1,6 +1,10 @@
 import { Battleships, GameState, initialState } from "../state";
 import { ActionType, Actions } from "../actions";
-import { getBoardCoordinates, getBoardIndex } from "../../utils";
+import {
+  getBoardCoordinates,
+  getBoardIndex,
+  markAllSquaresAroundBattleshipOnBoard,
+} from "../../utils";
 import { AXIS_LENGTH, BATTLESHIPS } from "../../constants";
 
 export const game = (
@@ -64,23 +68,15 @@ export const game = (
         if (draft.beforeGameState.gameBoard[hoverIndex]) return draft;
       }
 
-      battleshipUnitsIndexesList.forEach((index) => {
-        const [x, y] = getBoardCoordinates(index);
-        const minBorderX = x - 1 >= 0 ? x - 1 : 0;
-        const maxBorderX = x + 1 <= AXIS_LENGTH ? x + 1 : AXIS_LENGTH;
-        const minBorderY = y - 1 >= 0 ? y - 1 : 0;
-        const maxBorderY = y + 1 <= AXIS_LENGTH ? y + 1 : AXIS_LENGTH;
-
-        for (let i = minBorderX; i <= maxBorderX; i++) {
-          for (let j = minBorderY; j <= maxBorderY; j++) {
-            const borderIndex = getBoardIndex([i, j]);
-            draft.beforeGameState.gameBoard[borderIndex] = "border";
-          }
-        }
+      markAllSquaresAroundBattleshipOnBoard({
+        battleshipIndexes: battleshipUnitsIndexesList,
+        boundaryMark: "border",
+        battleshipMark: "occupied",
+        board: draft.beforeGameState.gameBoard,
       });
 
-      battleshipUnitsIndexesList.forEach(
-        (index) => (draft.beforeGameState.gameBoard[index] = "occupied")
+      draft.beforeGameState.battleshipIndexes.push(
+        battleshipUnitsIndexesList.join(",")
       );
 
       draft.beforeGameState.fleetPool[battleShipName!] -= 1;
@@ -97,7 +93,17 @@ export const game = (
       }
       return draft;
     case Actions.RESET_GAME_STATE:
-      draft.beforeGameState = initialState.game.beforeGameState;
+      draft = initialState.game;
+      return draft;
+    case Actions.SYNCHRONIZE_GAME_STATE_WITH_SERVER:
+      const { gameBoard, battleshipIndexes } = action.payload;
+      draft.beforeGameState.gameBoard = gameBoard;
+      draft.beforeGameState.battleshipIndexes = battleshipIndexes;
+      for (let key in draft.beforeGameState.fleetPool) {
+        const battleship = key as Battleships;
+        draft.beforeGameState.fleetPool[battleship] = 0;
+      }
+      draft.beforeGameState.selectedBattleship = null;
       return draft;
     default:
       return draft;
