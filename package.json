@@ -1,6 +1,7 @@
 {
   "name": "paper_battleship",
   "version": "0.1.0",
+  "homepage": "https://iNikolas.github.io/paper-battleships-firebase-client",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -31,9 +32,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "firebase deploy",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -54,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }

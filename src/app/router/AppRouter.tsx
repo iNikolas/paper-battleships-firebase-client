@@ -37,7 +37,7 @@ export const AppRouter = () => {
             <Route path="ranking" element={<Ranking />} />
             <Route
               path="*"
-              element={<Typography variant="h1">Not Found</Typography>}
+              element={<Navigate replace to="/" />}
             />
           </Route>
         </Routes>
