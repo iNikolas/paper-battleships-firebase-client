@@ -7,12 +7,17 @@ import { Actions, ActionType } from "../store/actions";
 const API = {
   webSocket: null as null | WebSocket,
 
+  token: null as null | string,
+
   initialize(
     host: string,
     setAlert: SetAlertType,
     dispatch: Dispatch<ActionType>
   ) {
-    this.webSocket = new WebSocket(`ws://${host}`);
+    if (!this.token)
+      throw new Error("API can not be initialized without auth token");
+
+    this.webSocket = new WebSocket(`wss://${host}`, this.token);
 
     const webSocket = this.webSocket;
 
@@ -59,7 +64,7 @@ const API = {
     };
   },
   doSend(object: SendType) {
-    this.webSocket?.send(JSON.stringify(object));
+    this.webSocket?.send(JSON.stringify({ ...object, token: this.token }));
   },
 };
 

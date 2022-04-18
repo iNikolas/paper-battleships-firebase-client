@@ -31,6 +31,11 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
         backgroundColor: (theme) => theme.palette.primary.main,
         color: (theme) => theme.palette.common.white,
         transform: "translate(25%, -50%)",
+        "@media screen and (orientation: landscape)": {
+          fontSize: (theme) => theme.spacing(2),
+          width: (theme) => theme.spacing(3),
+          height: (theme) => theme.spacing(3),
+        },
       }}
     >
       {fleetPool[shipName]}

@@ -12,6 +12,10 @@ export const Chat = () => {
         p: 1,
         display: "flex",
         flexDirection: "column",
+        "@media screen and (orientation: landscape)": {
+          width: "60%",
+          minHeight: (theme) => theme.spacing(20),
+        },
       }}
     >
       <MessageWindow />

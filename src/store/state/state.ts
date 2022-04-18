@@ -7,11 +7,11 @@ export interface GlobalState {
 
 export interface GameRequestStateMeta {
   name: string;
-  description: string;
-  time: string;
+  description?: string;
+  time?: string;
 }
 
-export type GameRequestState = { uid: string } & GameRequestStateMeta;
+export type GameRequestState = { uid?: string } & GameRequestStateMeta;
 
 export interface LobbyState {
   online: Array<string>;

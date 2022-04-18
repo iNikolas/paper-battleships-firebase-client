@@ -1,4 +1,3 @@
-import { EnhancedTableProps, HeadCell } from "./types";
 import React from "react";
 import {
   Box,
@@ -8,44 +7,22 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { GameRequestState } from "../../store/state";
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "Player",
-  },
-  {
-    id: "description",
-    numeric: false,
-    disablePadding: false,
-    label: "Desc.",
-  },
-  {
-    id: "time",
-    numeric: true,
-    disablePadding: false,
-    label: "Time",
-  },
-];
 
 export const EnhancedTableHead = ({
   order,
   orderBy,
   onRequestSort,
-}: EnhancedTableProps) => {
+  headCells,
+}: any) => {
   const createSortHandler =
-    (property: keyof GameRequestState) =>
-    (event: React.MouseEvent<unknown>) => {
+    (property: any) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
   return (
     <TableHead>
       <TableRow>
-        {headCells.map((headCell) => (
+        {headCells.map((headCell: any) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}

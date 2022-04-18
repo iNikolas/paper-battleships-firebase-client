@@ -16,32 +16,31 @@ import {
   getComparator,
   stableSort,
 } from "../../utils";
-import {
-  EnhancedTableHead,
-  OverflowHiddenTableCell,
-  TableRowClickable,
-} from "./";
+import { TableRowClickable } from "./";
 import { useStore } from "../../context";
-import { GameRequestState } from "../../store/state";
 import { useUser } from "reactfire";
+import { EnhancedTableHead } from "../EnhancedTableHead";
+import { GAMES_HEAD_CELLS } from "../../constants";
+import { OverflowHiddenTableCell } from "../";
 
 export const GamesTable = () => {
   const { data: user } = useUser();
   const {
-    state: {
-      lobby: { gameRequests },
-    },
+    state: { lobby },
   } = useStore();
+
+  const gameRequests = lobby.gameRequests as any;
+
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof GameRequestState>("time");
+  const [orderBy, setOrderBy] = React.useState<string>("time");
   const [page, setPage] = React.useState(0);
   const rowsPerPage = 5;
 
-  const isActiveSearch = checkIfSearchIsActive(gameRequests, user);
+  const isActiveSearch = checkIfSearchIsActive(lobby.gameRequests, user);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof GameRequestState
+    property: string
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -55,7 +54,11 @@ export const GamesTable = () => {
   const emptyRows = Math.max(0, (1 + page) * rowsPerPage - gameRequests.length);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       <Paper elevation={3}>
         <TableContainer>
           <Table aria-labelledby="tableTitle" size="small">
@@ -63,10 +66,11 @@ export const GamesTable = () => {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              headCells={GAMES_HEAD_CELLS}
             />
             <TableBody>
               {stableSort(gameRequests, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                     <TableRowClickable

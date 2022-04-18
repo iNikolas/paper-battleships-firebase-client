@@ -23,6 +23,10 @@ export const Unit: React.FC<UnitProps> = ({ right, left, selected }) => {
         borderTopRightRadius: right ? "40%" : 0,
         boxShadow: selected ? (theme) => theme.shadows[2] : "",
         cursor: "pointer",
+        "@media screen and (orientation: landscape)": {
+          width: (theme) => theme.spacing(3),
+          height: (theme) => theme.spacing(3),
+        },
       }}
     />
   );

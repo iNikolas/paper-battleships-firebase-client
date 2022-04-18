@@ -72,6 +72,7 @@ export const stableSort = <T,>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
 ) => {
+  if (!array) return;
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -115,7 +116,7 @@ const getDayAndMonth = (date: Date) => {
   return `${always2Digits(date.getDate())} ${MONTHS[date.getMonth()]}`;
 };
 
-export const convertDateToString = (date: string) => {
+export const convertDateToString = (date: any) => {
   const dateCreated = new Date(date);
   const now = new Date();
   const nextDay = new Date(dateCreated);

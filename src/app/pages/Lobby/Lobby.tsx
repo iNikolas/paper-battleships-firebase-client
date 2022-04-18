@@ -1,7 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
-import { Chat, CreateGame, GamesTable } from "../../../components";
+import {
+  Chat,
+  CreateGame,
+  GamesTable,
+  LobbyWrapper,
+} from "../../../components";
 import { useGameData } from "../../../utils";
 
 export const Lobby = () => {
@@ -20,19 +25,16 @@ export const Lobby = () => {
         display: "flex",
         flexDirection: "column",
         gap: 1,
+        "@media screen and (orientation: landscape)": {
+          alignItems: "center",
+          overflowY: "auto",
+        },
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          gap: 1,
-        }}
-      >
+      <LobbyWrapper>
         <CreateGame />
         <GamesTable />
-      </Box>
+      </LobbyWrapper>
       <Chat />
     </Box>
   );

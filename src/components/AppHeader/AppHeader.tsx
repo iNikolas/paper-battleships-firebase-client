@@ -15,6 +15,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { UIContext, useStore } from "../../context";
 import { getUserAlias } from "../../utils";
 import API from "../../api";
+import { Navigation } from "../Navigation";
+import { NAV_LINKS } from "../../app/router/routes";
 
 export const AppHeader = () => {
   const { data: user } = useUser();
@@ -23,20 +25,20 @@ export const AppHeader = () => {
   const timerRef = useRef<null | NodeJS.Timeout>(null);
   const { setAlert } = useContext(UIContext);
 
-  const handleSetUserCookie = useMemo(() => {
+  const handleSetUserToken = useMemo(() => {
     const timer = timerRef.current;
     if (timer) clearTimeout(timer);
     user
       ?.getIdToken()
       .then((token) => {
-        document.cookie = `token=${token}`;
+        API.token = token;
 
         const { exp } = jwtDecode(token) as { exp: number };
         const validTimeMs = exp * 1000 - Date.now();
 
         timerRef.current = setTimeout(
-          () => handleSetUserCookie(),
-          validTimeMs
+          () => handleSetUserToken(),
+          validTimeMs - 5 * 60 * 1000
         );
       })
       .catch((error) =>
@@ -52,22 +54,46 @@ export const AppHeader = () => {
     };
   }, [user, setAlert]);
 
-  useEffect(handleSetUserCookie, [user, handleSetUserCookie]);
+  useEffect(handleSetUserToken, [user, handleSetUserToken]);
 
   useEffect(() => {
-    API.initialize("localhost:4000", setAlert, dispatch);
+    user
+      ?.getIdToken()
+      .then((token) => {
+        API.token = token;
+        API.initialize(
+          "paper-battleships-game-server.herokuapp.com",
+          setAlert,
+          dispatch
+        );
+      })
+      .catch((error) =>
+        setAlert({
+          show: true,
+          severity: "error",
+          message: error.message,
+        })
+      );
   }, [setAlert, dispatch]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorNavEl, setAnchorNavEl] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(event.currentTarget);
 
+  const handleNavbar = (event: React.MouseEvent<HTMLElement>) =>
+    setAnchorNavEl(event.currentTarget);
+
   const handleClose = () => setAnchorEl(null);
+  const handleCloseNavbar = () => setAnchorNavEl(null);
 
   const handleLogout = async () => {
     try {
       await signOut(getAuth());
+      window.location.assign("/");
     } catch (error) {
       setAlert({
         show: true,
@@ -76,12 +102,41 @@ export const AppHeader = () => {
       });
     }
   };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton size="large" edge="start" color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
+        <Box>
+          <IconButton
+            onClick={handleNavbar}
+            aria-label="navbar"
+            aria-controls="menu"
+            aria-haspopup="true"
+            size="large"
+            edge="start"
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu"
+            anchorEl={anchorNavEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorNavEl)}
+            onClose={handleCloseNavbar}
+            onClick={handleCloseNavbar}
+          >
+            <Navigation links={NAV_LINKS} />
+          </Menu>
+        </Box>
         <Typography sx={{ flexGrow: 1 }} variant="h6" component="div">
           Paper Battleships
         </Typography>

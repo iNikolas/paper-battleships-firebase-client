@@ -8,7 +8,6 @@ export const GuestLayout = () => {
     <Grid sx={{ width: "100vw", height: "100vh" }} container>
       <Grid
         sx={{
-          opacity: 0.7,
           height: "100%",
           backgroundImage: `url(${posterImg})`,
           width: "100%",

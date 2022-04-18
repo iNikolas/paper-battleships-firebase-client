@@ -8,7 +8,7 @@ import {
 import { useUser } from "reactfire";
 import { Typography } from "@mui/material";
 import App from "../App";
-import { LoginScreen, RegisterScreen, Game } from "../pages";
+import { LoginScreen, RegisterScreen, Game, Ranking } from "../pages";
 import { Lobby } from "../pages/Lobby";
 
 export const AppRouter = () => {
@@ -34,6 +34,7 @@ export const AppRouter = () => {
             <Route path="game" element={<Game />} />
             <Route path="login" element={<Navigate replace to="/" />} />
             <Route path="register" element={<Navigate replace to="/" />} />
+            <Route path="ranking" element={<Ranking />} />
             <Route
               path="*"
               element={<Typography variant="h1">Not Found</Typography>}

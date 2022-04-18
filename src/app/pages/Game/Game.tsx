@@ -17,9 +17,26 @@ export const Game = () => {
   if (!activeGame) return <Navigate to="/" />;
 
   return (
-    <Box>
-      <Board />
-      <RivalBoard />
+    <Box
+      sx={{
+        "@media screen and (orientation: landscape)": {
+          ml: 17,
+          mt: 2,
+        },
+      }}
+    >
+      <Box
+        sx={{
+          "@media screen and (orientation: landscape)": {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+          },
+        }}
+      >
+        <Board />
+        <RivalBoard />
+      </Box>
       <GamePanel />
       <GameControls />
       <DitchGameDialog />

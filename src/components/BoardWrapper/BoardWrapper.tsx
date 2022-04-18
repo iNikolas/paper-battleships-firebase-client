@@ -9,4 +9,8 @@ export const BoardWrapper = styled(Paper)(({ theme }) => ({
   height: "65vw",
   display: "flex",
   flexWrap: "wrap",
+  "@media screen and (orientation: landscape)": {
+    width: "35vw",
+    height: "35vw",
+  },
 }));

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useFirestore, useUser, useFirestoreDocData } from "reactfire";
-import { doc, writeBatch } from "firebase/firestore";
+import { doc, writeBatch, runTransaction } from "firebase/firestore";
 import { ExplosionIcon, SquareCaption, SquareWrapper } from "../";
 import { RivalSquareProps } from "./RivalSquareProps";
 import {
@@ -16,7 +16,7 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
   const firestore = useFirestore();
   const { setAlert } = useContext(UIContext);
   const {
-    data: { client, host, isMoving, isEditable },
+    data: { client, host, isMoving, isEditable, rivalName },
   } = useGameData();
   const { data: player } = useUser()!;
 
@@ -103,13 +103,32 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
           return;
         }
 
-        const batch = writeBatch(firestore);
-        batch.update(rivalRef, {
-          gameBoard: rivalBoard,
-          winner: playerUid,
+        await runTransaction(firestore, async (transaction) => {
+          const rivalStatisticRef = doc(firestore, `statistic/${rivalUid}`);
+          const playerStatisticRef = doc(firestore, `statistic/${playerUid}`);
+
+          const rivalStatistic = await transaction.get(rivalStatisticRef);
+          const playerStatistic = await transaction.get(playerStatisticRef);
+          const rivalStatisticData = rivalStatistic.data();
+          const playerStatisticData = playerStatistic.data();
+
+          transaction.update(rivalStatisticRef, {
+            gamesPlayed: (rivalStatisticData?.gamesPlayed || 0) + 1,
+            name: rivalName,
+          });
+
+          transaction.update(playerStatisticRef, {
+            gamesPlayed: (playerStatisticData?.gamesPlayed || 0) + 1,
+            wins: (playerStatisticData?.wins || 0) + 1,
+            name: player?.displayName,
+          });
+
+          transaction.update(rivalRef, {
+            gameBoard: rivalBoard,
+            winner: playerUid,
+          });
+          transaction.update(playerRef, { winner: playerUid });
         });
-        batch.update(playerRef, { winner: playerUid });
-        await batch.commit();
       } catch (error) {
         setAlert({
           show: true,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper } from "@mui/material";
-import { Battleship, DirectionToggle } from "../";
+import { Battleship, DirectionToggle, Timer } from "../";
 
 export const GamePanel = () => {
   return (
@@ -17,6 +17,12 @@ export const GamePanel = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-around",
+        "@media screen and (orientation: landscape)": {
+          minHeight: "35vw",
+          width: (theme) => theme.spacing(15),
+          top: (theme) => theme.spacing(6),
+          left: (theme) => theme.spacing(2),
+        },
       }}
     >
       <DirectionToggle />
@@ -24,6 +30,7 @@ export const GamePanel = () => {
       <Battleship shipName="Cruiser" shipSize={3} />
       <Battleship shipName="Submarine" shipSize={2} />
       <Battleship shipName="Destroyer" shipSize={1} />
+      <Timer />
     </Paper>
   );
 };
