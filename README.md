@@ -28,7 +28,7 @@ yarn deploy-rules
 yarn start
 ```
 
-7. Run dedicated `Redis Node.js` server available by the next [Link](http://localhost:3000) on Github.
+7. Run dedicated `Redis Node.js` server available by the next [Link](https://github.com/iNikolas/paper-battleships-game-lobby-server) on Github.
 
 8. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
