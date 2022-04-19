@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { Formik, FormikValues } from "formik";
 import { Button } from "@mui/material";
@@ -35,6 +36,7 @@ export const RegisterScreen: React.FC = () => {
       );
 
       await updateProfile(user, { displayName });
+      await signInWithEmailAndPassword(getAuth(), email, password);
 
       setAlert({
         show: true,

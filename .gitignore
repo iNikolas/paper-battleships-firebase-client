@@ -7,6 +7,7 @@
 .gitignore
 .idea/
 .firebase
+.env
 
 # testing
 /coverage

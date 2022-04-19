@@ -17,7 +17,7 @@ const API = {
     if (!this.token)
       throw new Error("API can not be initialized without auth token");
 
-    this.webSocket = new WebSocket(`wss://${host}`, this.token);
+    this.webSocket = new WebSocket(`ws://${host}`, this.token);
 
     const webSocket = this.webSocket;
 

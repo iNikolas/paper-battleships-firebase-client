@@ -11,9 +11,10 @@ export const MessageWindow = () => {
   const messagesCollection = collection(firestore, "messages");
   const messagesQuery = query(
     messagesCollection,
-    orderBy("timestamp"),
+    orderBy("timestamp", "desc"),
     limit(50)
   );
+
   const viewStub = useRef<HTMLDivElement>(null);
   const [ref, { width, height }] = useMeasure();
 
@@ -42,9 +43,10 @@ export const MessageWindow = () => {
           overflowY: "auto",
         }}
       >
-        {messages?.map((message) => (
-          <Message key={message.id} message={message} />
-        ))}
+        {messages &&
+          [...messages]
+            .reverse()
+            .map((message) => <Message key={message.id} message={message} />)}
       </Box>
     </Box>
   );

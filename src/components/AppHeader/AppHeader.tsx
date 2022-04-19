@@ -17,6 +17,7 @@ import { getUserAlias } from "../../utils";
 import API from "../../api";
 import { Navigation } from "../Navigation";
 import { NAV_LINKS } from "../../app/router/routes";
+import { serverTimestamp } from "firebase/firestore";
 
 export const AppHeader = () => {
   const { data: user } = useUser();
@@ -62,7 +63,7 @@ export const AppHeader = () => {
       .then((token) => {
         API.token = token;
         API.initialize(
-          "paper-battleships-game-server.herokuapp.com",
+          "localhost:4000",
           setAlert,
           dispatch
         );

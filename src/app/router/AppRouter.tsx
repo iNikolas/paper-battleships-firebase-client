@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useUser } from "reactfire";
-import { Typography } from "@mui/material";
 import App from "../App";
 import { LoginScreen, RegisterScreen, Game, Ranking } from "../pages";
 import { Lobby } from "../pages/Lobby";
@@ -37,7 +36,7 @@ export const AppRouter = () => {
             <Route path="ranking" element={<Ranking />} />
             <Route
               path="*"
-              element={<Navigate replace to="/" />}
+              element={<Navigate replace to="game" />}
             />
           </Route>
         </Routes>

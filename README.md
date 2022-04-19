@@ -1,46 +1,54 @@
-# Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Getting started
 
-In the project directory, you can run:
+0. Login via firebase CLI `firebase login`
 
-### `yarn start`
+1. In the files `.firebaserc` and `firebase.json` replace `paper-battleships` with **your** Firebase project name
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. In the file `src/app/firebaseConfig.ts` replace the `firebaseConfig` value with the config of the web app you created inside **your** firebase Project
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+3. Ensure that email authentication is enabled inside Firebase Auth
 
-### `yarn test`
+4. Install dependencies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+yarn
+```
 
-### `yarn build`
+5. Deploy Firestore rules:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+yarn deploy-rules
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+6. Run the project:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+yarn start
+```
 
-### `yarn eject`
+7. Run dedicated `Redis Node.js` server available by the next [Link](http://localhost:3000) on Github.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+8. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to deploy my app to Firebase Hosting?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+yarn build
+yarn deploy-hosting
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## How to deploy my app to GitHub Pages?
 
-## Learn More
+1. Create your own GitHub repository for the project.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Change a `homepage` property in the `package.json` file. Add `homepage` `property in this format*: https://{username}.github.io/{repo-name}`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Add a "remote" that points to the GitHub repository `$ git remote add origin https://github.com/{username}/{repo-name}.git`
+
+4. Deploy the React app to GitHub Pages:
+
+```sh
+yarn deploy
+```

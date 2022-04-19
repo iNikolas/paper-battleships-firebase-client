@@ -9,22 +9,13 @@ import {
   FirestoreProvider,
   StorageProvider,
 } from "reactfire";
+import firebaseConfig from "./app/firebaseConfig";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { AppProvider, UIContextProvider } from "./context";
 import { AppRouter } from "./app/router";
 import theme from "./theme";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC8haVNMqFqYlWrnFzPfymghrc_xMgLlTw",
-  authDomain: "paper-battleships.firebaseapp.com",
-  projectId: "paper-battleships",
-  storageBucket: "paper-battleships.appspot.com",
-  messagingSenderId: "25715122652",
-  appId: "1:25715122652:web:c226d0c04af17f3ac9ef19",
-  measurementId: "G-R0E96WC4SD",
-};
 
 const root = createRoot(document.getElementById("root")!);
 
