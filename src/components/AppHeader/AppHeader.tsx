@@ -90,9 +90,7 @@ export const AppHeader = () => {
   const handleLogout = async () => {
     try {
       await signOut(getAuth());
-      window.location.assign(
-        `${window.location.host}/${window.location.pathname}`
-      );
+      window.location.assign(window.location.pathname);
     } catch (error) {
       setAlert({
         show: true,

@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 import { doc } from "firebase/firestore";
 import { playAudio, useGameData } from "../../utils";
 import { InGameMessage } from "./";
 import { Box } from "@mui/material";
-import { UIContext } from "../../context";
 
 const notification = require("../../sounds/notification.mp3");
 
 export const InGameMessageWindow = () => {
   const [messages, setMessages] = useState<Array<any>>([]);
   const [opacity, setOpacity] = useState(1);
-  const { setAlert } = useContext(UIContext);
   const firestore = useFirestore();
   const { data: user } = useUser();
   const { data: playerGameState } = useGameData();
