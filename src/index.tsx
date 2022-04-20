@@ -25,8 +25,6 @@ const Root: React.FC = ({ children }) => {
   const firestore = getFirestore(app);
   const storage = getStorage(app);
 
-  connectFirestoreEmulator(firestore, 'localhost', 8080)
-
   return (
     <AuthProvider sdk={auth}>
       <FirestoreProvider sdk={firestore}>

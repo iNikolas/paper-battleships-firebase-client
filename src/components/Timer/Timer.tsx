@@ -4,7 +4,7 @@ import { useFirestore, useUser } from "reactfire";
 import { Typography } from "@mui/material";
 import { useGameData, useRivalGameState } from "../../utils";
 import { MOVE_TIME_SEC } from "../../constants";
-import { UIContext } from "../../context";
+import { UIContext, useStore } from "../../context";
 
 export const Timer = () => {
   const firestore = useFirestore();
@@ -15,6 +15,12 @@ export const Timer = () => {
   const { data: rivalGameState } = useRivalGameState(
     gameData.client || gameData.host
   );
+  const {
+    state: {
+      game: { serverTime },
+    },
+  } = useStore();
+
   const timer = useRef<NodeJS.Timeout | null>(null);
 
   const isPlayerMove = gameData.isMoving;
@@ -50,18 +56,18 @@ export const Timer = () => {
   useEffect(() => {
     if (timer.current) clearInterval(timer.current);
 
-    const remainedTime = MOVE_TIME_SEC - (Date.now() - timestampMs) / 1000;
+    const remainedTime = MOVE_TIME_SEC - (serverTime - timestampMs) / 1000;
     setCountdownSec(remainedTime);
 
     timer.current = setInterval(
-      () => setCountdownSec(MOVE_TIME_SEC - (Date.now() - timestampMs) / 1000),
+      () => setCountdownSec(MOVE_TIME_SEC - (serverTime - timestampMs) / 1000),
       1000
     );
 
     return () => {
       if (timer.current) clearInterval(timer.current);
     };
-  }, [timestampMs]);
+  }, [serverTime]);
 
   useEffect(() => {
     if (countdownSec < 0) swapQue();

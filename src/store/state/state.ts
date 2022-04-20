@@ -37,6 +37,7 @@ export interface BeforeGameState {
 
 export interface GameState {
   isDitchGameRequest: boolean;
+  serverTime: number;
   beforeGameState: BeforeGameState;
 }
 
@@ -48,6 +49,7 @@ export const initialState = {
     gameRequests: [],
   },
   game: {
+    serverTime: Date.now(),
     isDitchGameRequest: false,
     beforeGameState: {
       selectedBattleship: "Battleship",

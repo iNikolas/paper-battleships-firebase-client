@@ -8,7 +8,7 @@ import {
   markAllSquaresAroundBattleshipOnBoard,
   useGameData,
 } from "../../utils";
-import { UIContext } from "../../context";
+import { UIContext, useStore } from "../../context";
 import { Typography } from "@mui/material";
 import { SquareState } from "../../store/state";
 import { playAudio } from "../../utils";
@@ -22,6 +22,11 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
     data: { client, host, isMoving, isEditable, rivalName },
   } = useGameData();
   const { data: player } = useUser()!;
+  const {
+    state: {
+      game: { serverTime },
+    },
+  } = useStore();
 
   const rivalUid = client || host;
   const playerUid = player?.uid;
@@ -52,7 +57,7 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
         batch.update(rivalRef, {
           gameBoard: rivalBoard,
           isMoving: true,
-          lastMoveTime: Date.now(),
+          lastMoveTime: serverTime,
         });
 
         await batch.commit();

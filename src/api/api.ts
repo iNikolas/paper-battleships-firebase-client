@@ -51,7 +51,7 @@ const API = {
     };
 
     webSocket.onmessage = ({ data: message }) => {
-      const { errors, type, ...rest } = JSON.parse(message);
+      const { errors, type, serverTime, ...rest } = JSON.parse(message);
 
       if (errors)
         return setAlert({
@@ -63,6 +63,12 @@ const API = {
       if (type === "game")
         return dispatch({
           type: Actions.SHOW_DITCH_GAME_REQUEST,
+        });
+
+      if (type === "update-time" && serverTime)
+        return dispatch({
+          type: Actions.SYNCHRONIZE_GAME_TIME_WITH_SERVER,
+          payload: serverTime,
         });
 
       dispatch({ type: Actions.UPDATE_LOBBY_STATE, payload: rest });

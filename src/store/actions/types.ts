@@ -49,6 +49,11 @@ export interface SynchronizeGameStateWithServer {
   payload: { battleshipIndexes: Array<string>; gameBoard: Array<SquareState> };
 }
 
+export interface SynchronizeGameTimeWithServer {
+  type: GameActions.SYNCHRONIZE_GAME_TIME_WITH_SERVER;
+  payload: number;
+}
+
 export type ActionType =
   | UpdateLobbyStateAction
   | RefuseDitchGameRequestAction
@@ -59,4 +64,5 @@ export type ActionType =
   | RemoveHighlighted
   | PlaceBattleshipOnBoard
   | ResetGameState
-  | SynchronizeGameStateWithServer;
+  | SynchronizeGameStateWithServer
+  | SynchronizeGameTimeWithServer;

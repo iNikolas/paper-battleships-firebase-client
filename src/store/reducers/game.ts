@@ -105,6 +105,9 @@ export const game = (
       }
       draft.beforeGameState.selectedBattleship = null;
       return draft;
+    case Actions.SYNCHRONIZE_GAME_TIME_WITH_SERVER:
+      draft.serverTime = action.payload;
+      return draft;
     default:
       return draft;
   }
