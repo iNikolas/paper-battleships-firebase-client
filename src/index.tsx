@@ -11,7 +11,7 @@ import {
 } from "reactfire";
 import firebaseConfig from "./app/firebaseConfig";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { AppProvider, UIContextProvider } from "./context";
 import { AppRouter } from "./app/router";

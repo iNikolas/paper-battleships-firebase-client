@@ -1,8 +1,10 @@
+import { Dispatch } from "react";
 import { SetAlertType } from "../context";
 import { tryReconnect } from "../utils";
 import { SendType } from "./types";
-import { Dispatch } from "react";
 import { Actions, ActionType } from "../store/actions";
+
+const isDevelopment = process.env.NODE_ENV === "development";
 
 const API = {
   webSocket: null as null | WebSocket,
@@ -17,7 +19,10 @@ const API = {
     if (!this.token)
       throw new Error("API can not be initialized without auth token");
 
-    this.webSocket = new WebSocket(`ws://${host}`, this.token);
+    this.webSocket = new WebSocket(
+      `ws${isDevelopment ? "" : "s"}://${host}`,
+      this.token
+    );
 
     const webSocket = this.webSocket;
 

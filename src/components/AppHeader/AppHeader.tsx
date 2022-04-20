@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { signOut, getAuth } from "firebase/auth";
 import { useUser } from "reactfire";
 import jwtDecode from "jwt-decode";
@@ -17,7 +17,7 @@ import { getUserAlias } from "../../utils";
 import API from "../../api";
 import { Navigation } from "../Navigation";
 import { NAV_LINKS } from "../../app/router/routes";
-import { serverTimestamp } from "firebase/firestore";
+import { HOST } from "../../constants";
 
 export const AppHeader = () => {
   const { data: user } = useUser();
@@ -26,7 +26,7 @@ export const AppHeader = () => {
   const timerRef = useRef<null | NodeJS.Timeout>(null);
   const { setAlert } = useContext(UIContext);
 
-  const handleSetUserToken = useMemo(() => {
+  const handleSetUserToken = useCallback(() => {
     const timer = timerRef.current;
     if (timer) clearTimeout(timer);
     user
@@ -62,11 +62,7 @@ export const AppHeader = () => {
       ?.getIdToken()
       .then((token) => {
         API.token = token;
-        API.initialize(
-          "localhost:4000",
-          setAlert,
-          dispatch
-        );
+        API.initialize(HOST, setAlert, dispatch);
       })
       .catch((error) =>
         setAlert({
@@ -75,7 +71,7 @@ export const AppHeader = () => {
           message: error.message,
         })
       );
-  }, [setAlert, dispatch]);
+  }, [setAlert, dispatch, user]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorNavEl, setAnchorNavEl] = React.useState<null | HTMLElement>(
@@ -94,7 +90,9 @@ export const AppHeader = () => {
   const handleLogout = async () => {
     try {
       await signOut(getAuth());
-      window.location.assign("/");
+      window.location.assign(
+        `${window.location.host}/${window.location.pathname}`
+      );
     } catch (error) {
       setAlert({
         show: true,

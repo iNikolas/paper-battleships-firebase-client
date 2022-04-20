@@ -22,9 +22,11 @@ export const MessageWindow = () => {
     idField: "id",
   });
 
+  const scrollHeight = viewStub.current?.scrollHeight;
+
   useEffect(() => {
     if (viewStub.current) handleScroll(viewStub.current);
-  }, [messages]);
+  }, [scrollHeight]);
   return (
     <Box
       ref={ref}

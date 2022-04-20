@@ -30,6 +30,7 @@ export const SendMessageArea = () => {
     try {
       await addDoc(collection(firestore, "messages"), {
         name: user?.displayName,
+        uid: user?.uid,
         text: message,
         timestamp: serverTimestamp(),
       });
@@ -54,6 +55,7 @@ export const SendMessageArea = () => {
       const file = event.currentTarget.files[0];
       const messageRef = await addDoc(collection(firestore, "messages"), {
         name: user?.displayName,
+        uid: user?.uid,
         imageUrl: LOADING_IMAGE_URL,
         timestamp: serverTimestamp(),
       });

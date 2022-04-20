@@ -216,3 +216,8 @@ export const useRivalGameState = (uid: string) => {
 
   return useFirestoreDocData(rivalRef);
 };
+
+export const playAudio = async (audioLink: string) => {
+  const audio = new Audio(audioLink);
+  return await audio.play();
+};

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Button } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { Formik, FormikValues } from "formik";
 import {
   Logo,
@@ -16,9 +16,11 @@ import {
 import { PasswordTextInput } from "../../../components";
 import { UIContext } from "../../../context";
 import { Schema } from "./index";
+import markImg from "../../../images/mark.png";
 
 export const LoginScreen: React.FC = () => {
   const { setAlert } = useContext(UIContext);
+  const portrait = useMediaQuery("(orientation: portrait)");
 
   const handleSignIn = async (values: FormikValues) => {
     const { email, password } = values;
@@ -57,6 +59,18 @@ export const LoginScreen: React.FC = () => {
               >
                 LOGIN
               </FormButton>
+              {portrait && (
+                <Box
+                  component="img"
+                  src={markImg}
+                  alt="Russian warship, go fuck yourself"
+                  sx={{
+                    maxWidth: (theme) => theme.spacing(20),
+                    alignSelf: "center",
+                    transform: "rotate(5deg)",
+                  }}
+                />
+              )}
             </Form>
           )}
         </Formik>

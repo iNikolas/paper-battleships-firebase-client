@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import posterImg from "../../images/poster.jpg";
+import posterImg from "../../images/uk_post-1.webp";
 import { Outlet } from "react-router-dom";
 
 export const GuestLayout = () => {

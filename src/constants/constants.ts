@@ -1,6 +1,12 @@
 import { StatisticHeadCell } from "../components/RankingTable/types";
 import { GamesHeadCell } from "../components/GamesTable/types";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
+export const HOST = isDevelopment
+  ? "localhost:4000"
+  : "paper-battleships-game-server.herokuapp.com";
+
 export const MONTHS = [
   "Jan",
   "Feb",

@@ -6,6 +6,7 @@ import API from "../../api";
 import { useGameData, useRivalGameState } from "../../utils";
 import { UIContext, useStore } from "../../context";
 import { GameActions } from "../../store/actions/game";
+import { InGameChat } from "../InGameChat";
 
 export const GameControls = () => {
   const {
@@ -78,19 +79,28 @@ export const GameControls = () => {
         justifyContent: "space-around",
         alignItems: "left",
         width: "100%",
-        paddingRight: (theme) => theme.spacing(1),
+        pr: 1,
+        pl: 1,
+        "@media screen and (orientation: landscape)": {
+          mt: 2,
+        },
       }}
     >
-      <Button disabled={!isEditable} onClick={handleReadyClick} size="small">
-        READY
-      </Button>
-      <Button
-        disabled={!isEditable}
-        onClick={handleResetGameClick}
-        size="small"
-      >
-        RESET
-      </Button>
+      {isEditable && (
+        <Button disabled={!isEditable} onClick={handleReadyClick} size="small">
+          READY
+        </Button>
+      )}
+      {isEditable && (
+        <Button
+          disabled={!isEditable}
+          onClick={handleResetGameClick}
+          size="small"
+        >
+          RESET
+        </Button>
+      )}
+      {!isEditable && <InGameChat />}
       <Button onClick={handleDitchGameClick} size="small">
         DITCH GAME
       </Button>

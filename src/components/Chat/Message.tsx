@@ -1,11 +1,13 @@
 import React from "react";
+import { useUser } from "reactfire";
 import { Box, Paper, Typography } from "@mui/material";
 import { MessageProps } from "./types";
 import { convertDateToString } from "../../utils";
 
 export const Message: React.FC<MessageProps> = ({
-  message: { text, name, timestamp, imageUrl },
+  message: { text, name, timestamp, imageUrl, uid },
 }) => {
+  const { data: user } = useUser();
   return (
     <Box
       sx={{
@@ -26,28 +28,37 @@ export const Message: React.FC<MessageProps> = ({
           src={imageUrl}
         />
       )}
-      <Typography
-        sx={{ overflowWrap: "break-word" }}
-        gutterBottom
-        variant="body1"
+      <Box
+        sx={{
+          backgroundColor: (theme) =>
+            uid === user?.uid ? theme.palette.grey.A100 : "",
+        }}
       >
-        {text}
-      </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography
-          sx={{ fontStyle: "italic" }}
-          variant="caption"
-          color="text.secondary"
+          sx={{
+            overflowWrap: "break-word",
+          }}
+          gutterBottom
+          variant="body1"
         >
-          {name}
+          {text}
         </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {convertDateToString(
-            timestamp
-              ? new Date(timestamp.seconds * 1000).toString()
-              : new Date().toString()
-          )}
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{ fontStyle: "italic" }}
+            variant="caption"
+            color="text.secondary"
+          >
+            {name}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {convertDateToString(
+              timestamp
+                ? new Date(timestamp.seconds * 1000).toString()
+                : new Date().toString()
+            )}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

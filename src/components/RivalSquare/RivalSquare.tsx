@@ -11,6 +11,9 @@ import {
 import { UIContext } from "../../context";
 import { Typography } from "@mui/material";
 import { SquareState } from "../../store/state";
+import { playAudio } from "../../utils";
+
+const audio = require("../../sounds/explosion.wav");
 
 export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
   const firestore = useFirestore();
@@ -91,6 +94,14 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
             }
           }
         });
+
+        playAudio(audio).catch((error) =>
+          setAlert({
+            show: true,
+            severity: "error",
+            message: error.message,
+          })
+        );
 
         const isWinner = !rivalBoard.includes("occupied");
         if (!isWinner) {

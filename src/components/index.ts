@@ -38,3 +38,4 @@ export * from "./EnhancedTableHead";
 export * from "./OverflowHiddenTableCell";
 export * from "./LobbyWrapper";
 export * from "./Navigation";
+export * from "./InGameChat";

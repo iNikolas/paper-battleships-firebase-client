@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@mui/material";
 import { ExplosionIcon, SquareCaption, SquareWrapper } from "../";
 import { SquareProps } from "./SquareProps";
-import { ALPHABET, useGameData } from "../../utils";
+import { ALPHABET, playAudio, useGameData } from "../../utils";
 import { useStore } from "../../context";
 import { GameActions } from "../../store/actions/game";
+
+const explosionSound = require("../../sounds/explosion.wav");
 
 export const Square: React.FC<SquareProps> = ({ index }) => {
   const {
@@ -33,6 +35,11 @@ export const Square: React.FC<SquareProps> = ({ index }) => {
   };
 
   const handleLeave = () => dispatch({ type: GameActions.REMOVE_HIGHLIGHTED });
+
+  useEffect(() => {
+    if (isHit)
+      playAudio(explosionSound).catch((error) => console.log(error.message));
+  }, [isHit]);
 
   return (
     <SquareWrapper
