@@ -16,6 +16,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^18.0.1",
     "@types/yup": "^0.29.13",
+    "emoji-picker-react": "^3.5.1",
     "firebase": "^9.6.10",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",

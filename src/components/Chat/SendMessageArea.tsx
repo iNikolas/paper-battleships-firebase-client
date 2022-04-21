@@ -10,13 +10,16 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import { Schema } from "./Schema";
 import { GameForm } from "../GameForm";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { UIContext } from "../../context";
 import { LOADING_IMAGE_URL } from "../../constants";
+import { ChatInputAdornment } from "../ChatInputAdornment";
+import { EmojiPicker } from "../EmojiPicker";
 
 export const SendMessageArea = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
   const { setAlert } = useContext(UIContext);
   const firestore = useFirestore();
   const storage = useStorage();
@@ -43,6 +46,12 @@ export const SendMessageArea = () => {
       });
     }
   };
+
+  const toggleEmojiView = () => {
+    setShowEmoji((prevState) => !prevState);
+  };
+
+  const hideEmojiView = () => setShowEmoji(false);
 
   const handleSubmitImageRequest = () => {
     fileEL.current?.click();
@@ -90,17 +99,40 @@ export const SendMessageArea = () => {
           message: "",
         }}
       >
-        {({ isSubmitting, isValid, getFieldProps, getFieldMeta }) => (
+        {({
+          isSubmitting,
+          isValid,
+          getFieldProps,
+          getFieldMeta,
+          setFieldValue,
+        }) => (
           <GameForm>
-            <TextField
-              {...getFieldProps("message")}
-              inputProps={{ maxLength: 250 }}
-              sx={{ flexGrow: 1 }}
-              size="small"
-              name="message"
-              label="Message"
-              variant="filled"
-            />
+            <Box sx={{ position: "relative", flexGrow: 1 }}>
+              {showEmoji && (
+                <Box onMouseLeave={hideEmojiView}>
+                  <EmojiPicker
+                    getFieldProps={getFieldProps}
+                    setFieldValue={setFieldValue}
+                  />
+                </Box>
+              )}
+              <TextField
+                {...getFieldProps("message")}
+                inputProps={{ maxLength: 250 }}
+                sx={{ width: "100%" }}
+                size="small"
+                name="message"
+                label="Message"
+                variant="filled"
+                InputProps={{
+                  endAdornment: (
+                    <ChatInputAdornment onClick={toggleEmojiView}>
+                      😃
+                    </ChatInputAdornment>
+                  ),
+                }}
+              />
+            </Box>
             <Button
               size="small"
               type="submit"

@@ -39,3 +39,5 @@ export * from "./OverflowHiddenTableCell";
 export * from "./LobbyWrapper";
 export * from "./Navigation";
 export * from "./InGameChat";
+export * from "./ChatInputAdornment";
+export * from "./EmojiPicker";
