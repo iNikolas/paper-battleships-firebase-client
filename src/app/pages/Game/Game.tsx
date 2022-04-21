@@ -6,7 +6,6 @@ import {
   DitchGameDialog,
   GameControls,
   GameOverAlert,
-  GamePanel,
   RivalBoard,
 } from "../../../components";
 import { useGameData } from "../../../utils";
@@ -20,7 +19,6 @@ export const Game = () => {
     <Box
       sx={{
         "@media screen and (orientation: landscape)": {
-          ml: 17,
           mt: 2,
         },
       }}
@@ -37,7 +35,6 @@ export const Game = () => {
         <Board />
         <RivalBoard />
       </Box>
-      <GamePanel />
       <GameControls />
       <DitchGameDialog />
       <GameOverAlert />

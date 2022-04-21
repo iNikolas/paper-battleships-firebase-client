@@ -41,3 +41,5 @@ export * from "./Navigation";
 export * from "./InGameChat";
 export * from "./ChatInputAdornment";
 export * from "./EmojiPicker";
+export * from "./ChatTextField";
+export * from "./GamePanelWrapper";

@@ -39,11 +39,11 @@ export const Timer = () => {
 
     batch.update(playerRef, {
       isMoving: !isPlayerMove,
-      lastMoveTime: Date.now(),
+      lastMoveTime: serverTime,
     });
     batch.update(rivalRef, {
       isMoving: isPlayerMove,
-      lastMoveTime: Date.now(),
+      lastMoveTime: serverTime,
     });
 
     batch

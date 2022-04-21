@@ -5,8 +5,7 @@ import { UIContext, useStore } from "../../context";
 import { BoardWrapper } from "../BoardWrapper";
 import { SquareState } from "../../store/state";
 import { PlayerIsNotReadyNotification } from "../PlayerIsNotReadyNotification";
-import { Box } from "@mui/material";
-import { InGameMessageWindow } from "../";
+import { GamePanel, InGameMessageWindow, GamePanelWrapper } from "../";
 
 export const Board = () => {
   const squares = [];
@@ -38,10 +37,11 @@ export const Board = () => {
   for (let i = 0; i < 100; i++) squares.push(renderSquare(i));
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <GamePanelWrapper>
+      <GamePanel />
       <BoardWrapper elevation={6}>{squares}</BoardWrapper>
       <InGameMessageWindow />
       {!isRivalReady && <PlayerIsNotReadyNotification />}
-    </Box>
+    </GamePanelWrapper>
   );
 };

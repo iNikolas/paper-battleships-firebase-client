@@ -62,7 +62,7 @@ export const Square: React.FC<SquareProps> = ({ index }) => {
       {index < 10 && <SquareCaption top>{index + 1}</SquareCaption>}
       {!(index % 10) && <SquareCaption>{ALPHABET[index / 10]}</SquareCaption>}
       {isMiss && (
-        <Typography sx={{ fontSize: (theme) => theme.spacing(2) }}>
+        <Typography sx={{ fontSize: (theme) => theme.spacing(3) }}>
           •
         </Typography>
       )}

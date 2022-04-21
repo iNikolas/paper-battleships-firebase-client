@@ -39,6 +39,8 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
   const isPlayerReady = !isEditable;
   const rivalBattleshipsIndexes =
     rivalGameState?.battleshipIndexes as Array<string>;
+  const destroyedBattleships =
+    rivalGameState?.destroyedBattleships as Array<number>;
 
   const isMiss = squareState === "miss";
   const isHit = squareState === "hit";
@@ -91,6 +93,13 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
                 board: rivalBoard,
               });
 
+              const battleshipIndex = rivalBattleshipState.length - 1;
+              const sameDestroyedBattleshipsCount =
+                destroyedBattleships[battleshipIndex] || 0;
+
+              destroyedBattleships[battleshipIndex] =
+                sameDestroyedBattleshipsCount + 1;
+
               setAlert({
                 show: true,
                 severity: "success",
@@ -112,8 +121,11 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
         if (!isWinner) {
           const batch = writeBatch(firestore);
 
-          batch.update(rivalRef, { gameBoard: rivalBoard });
-          batch.update(playerRef, { lastMoveTime: Date.now() });
+          batch.update(rivalRef, {
+            gameBoard: rivalBoard,
+            destroyedBattleships,
+          });
+          batch.update(playerRef, { lastMoveTime: serverTime });
 
           await batch.commit();
           return;
@@ -170,7 +182,7 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
       {index < 10 && <SquareCaption top>{index + 1}</SquareCaption>}
       {!(index % 10) && <SquareCaption>{ALPHABET[index / 10]}</SquareCaption>}
       {isMiss && (
-        <Typography sx={{ fontSize: (theme) => theme.spacing(2) }}>
+        <Typography sx={{ fontSize: (theme) => theme.spacing(3) }}>
           •
         </Typography>
       )}

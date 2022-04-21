@@ -10,12 +10,12 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import { Schema } from "./Schema";
 import { GameForm } from "../GameForm";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { UIContext } from "../../context";
 import { LOADING_IMAGE_URL } from "../../constants";
-import { ChatInputAdornment } from "../ChatInputAdornment";
 import { EmojiPicker } from "../EmojiPicker";
+import { ChatTextField } from "../ChatTextField";
 
 export const SendMessageArea = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -107,30 +107,19 @@ export const SendMessageArea = () => {
           setFieldValue,
         }) => (
           <GameForm>
-            <Box sx={{ position: "relative", flexGrow: 1 }}>
+            <Box
+              onMouseLeave={hideEmojiView}
+              sx={{ position: "relative", flexGrow: 1 }}
+            >
               {showEmoji && (
-                <Box onMouseLeave={hideEmojiView}>
-                  <EmojiPicker
-                    getFieldProps={getFieldProps}
-                    setFieldValue={setFieldValue}
-                  />
-                </Box>
+                <EmojiPicker
+                  getFieldProps={getFieldProps}
+                  setFieldValue={setFieldValue}
+                />
               )}
-              <TextField
-                {...getFieldProps("message")}
-                inputProps={{ maxLength: 250 }}
-                sx={{ width: "100%" }}
-                size="small"
-                name="message"
-                label="Message"
-                variant="filled"
-                InputProps={{
-                  endAdornment: (
-                    <ChatInputAdornment onClick={toggleEmojiView}>
-                      😃
-                    </ChatInputAdornment>
-                  ),
-                }}
+              <ChatTextField
+                getFieldProps={getFieldProps}
+                toggleEmojiView={toggleEmojiView}
               />
             </Box>
             <Button

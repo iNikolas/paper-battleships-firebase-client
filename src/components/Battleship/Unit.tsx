@@ -2,7 +2,12 @@ import React from "react";
 import { Box } from "@mui/material";
 import { UnitProps } from "./types";
 
-export const Unit: React.FC<UnitProps> = ({ right, left, selected }) => {
+export const Unit: React.FC<UnitProps> = ({
+  right,
+  left,
+  selected,
+  isRival,
+}) => {
   return (
     <Box
       sx={{
@@ -22,7 +27,7 @@ export const Unit: React.FC<UnitProps> = ({ right, left, selected }) => {
         borderBottomRightRadius: right ? "40%" : 0,
         borderTopRightRadius: right ? "40%" : 0,
         boxShadow: selected ? (theme) => theme.shadows[2] : "",
-        cursor: "pointer",
+        cursor: isRival ? "cursor" : "pointer",
         "@media screen and (orientation: landscape)": {
           width: (theme) => theme.spacing(3),
           height: (theme) => theme.spacing(3),

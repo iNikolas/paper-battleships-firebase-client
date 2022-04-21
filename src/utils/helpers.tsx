@@ -24,9 +24,18 @@ export const renderUnit = (
   index: number,
   left: boolean,
   right: boolean,
-  selected: boolean
+  selected: boolean,
+  isRival = false
 ) => {
-  return <Unit key={index} left={left} right={right} selected={selected} />;
+  return (
+    <Unit
+      key={index}
+      left={left}
+      right={right}
+      selected={selected}
+      isRival={isRival}
+    />
+  );
 };
 
 export const getUserAlias = (

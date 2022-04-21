@@ -33,6 +33,7 @@ export interface BeforeGameState {
   gameBoard: Array<SquareState>;
   fleetPool: FleetPool;
   battleshipIndexes: Array<string>;
+  destroyedBattleships: Array<number>;
 }
 
 export interface GameState {
@@ -56,6 +57,7 @@ export const initialState = {
       shipDirection: "right",
       highlightedIndexes: [],
       battleshipIndexes: [],
+      destroyedBattleships: Array(BATTLESHIPS.length).fill(0),
       gameBoard: Array(100).fill(null),
       fleetPool: {
         Battleship: 1,

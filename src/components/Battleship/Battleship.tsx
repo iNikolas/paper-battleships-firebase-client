@@ -9,6 +9,7 @@ import { Counter, GamePanelTypography } from "../";
 export const Battleship: React.FC<BattleshipProps> = ({
   shipSize,
   shipName,
+  isRival,
 }) => {
   const units = [];
   const {
@@ -20,15 +21,17 @@ export const Battleship: React.FC<BattleshipProps> = ({
     dispatch,
   } = useStore();
 
-  const handleBattleshipSelect = () =>
+  const handleBattleshipSelect = () => {
+    if (isRival) return;
     dispatch({ type: GameActions.SELECT_BATTLESHIP, payload: shipName });
+  };
 
-  const selected = shipName === selectedBattleship;
+  const selected = shipName === selectedBattleship && !isRival;
 
   for (let i = 0; i < shipSize; i++) {
     const left = i === 0;
     const right = i === shipSize - 1;
-    units.push(renderUnit(i, left, right, selected));
+    units.push(renderUnit(i, left, right, selected, isRival));
   }
 
   return (
@@ -48,7 +51,7 @@ export const Battleship: React.FC<BattleshipProps> = ({
           }}
         >
           {units}
-          <Counter shipName={shipName} />
+          <Counter isRival={isRival} shipName={shipName} />
         </Box>
       </Box>
     </Box>

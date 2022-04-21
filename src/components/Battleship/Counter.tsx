@@ -2,8 +2,26 @@ import React from "react";
 import { useStore } from "../../context";
 import { CounterProps } from "./types";
 import { Typography } from "@mui/material";
+import { initialState } from "../../store/state/";
+import { useGameData, useRivalGameState } from "../../utils";
+import { BATTLESHIPS } from "../../constants";
 
-export const Counter: React.FC<CounterProps> = ({ shipName }) => {
+export const Counter: React.FC<CounterProps> = ({ shipName, isRival }) => {
+  const { data: playerGameState } = useGameData();
+  const { data: rivalGameState } = useRivalGameState(
+    playerGameState?.client || playerGameState?.host
+  );
+  const isEditable = playerGameState?.isEditable;
+  const initialPool = initialState.game.beforeGameState.fleetPool[shipName];
+  const battleshipIndex = BATTLESHIPS.indexOf(shipName);
+
+  const playersDestroyedBattleships =
+    playerGameState?.destroyedBattleships ||
+    initialState.game.beforeGameState.destroyedBattleships;
+  const rivalsDestroyedBattleships =
+    rivalGameState?.destroyedBattleships ||
+    initialState.game.beforeGameState.destroyedBattleships;
+
   const {
     state: {
       game: {
@@ -11,6 +29,7 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
       },
     },
   } = useStore();
+
   return (
     <Typography
       component="div"
@@ -28,7 +47,8 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: (theme) => theme.palette.primary.main,
+        backgroundColor: (theme) =>
+          isRival ? theme.palette.secondary.main : theme.palette.primary.main,
         color: (theme) => theme.palette.common.white,
         transform: "translate(25%, -50%)",
         "@media screen and (orientation: landscape)": {
@@ -38,7 +58,11 @@ export const Counter: React.FC<CounterProps> = ({ shipName }) => {
         },
       }}
     >
-      {fleetPool[shipName]}
+      {isEditable && !isRival
+        ? fleetPool[shipName]
+        : isRival
+        ? initialPool - rivalsDestroyedBattleships[battleshipIndex]
+        : initialPool - playersDestroyedBattleships[battleshipIndex]}
     </Typography>
   );
 };

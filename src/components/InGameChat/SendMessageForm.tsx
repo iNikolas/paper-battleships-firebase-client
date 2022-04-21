@@ -4,11 +4,10 @@ import { doc, updateDoc } from "firebase/firestore";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import { Schema } from "../Chat/Schema";
 import { GameForm } from "../GameForm";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useGameData } from "../../utils";
 import { UIContext } from "../../context";
-import { ChatInputAdornment } from "../ChatInputAdornment";
-import { EmojiPicker } from "../";
+import { ChatTextField, EmojiPicker } from "../";
 
 export const SendMessageForm = () => {
   const firestore = useFirestore();
@@ -58,32 +57,16 @@ export const SendMessageForm = () => {
         setFieldValue,
       }) => (
         <GameForm>
-          <Box sx={{ position: "relative" }}>
+          <Box onMouseLeave={hideEmojiView} sx={{ position: "relative" }}>
             {showEmoji && (
-              <Box onMouseLeave={hideEmojiView}>
-                <EmojiPicker
-                  getFieldProps={getFieldProps}
-                  setFieldValue={setFieldValue}
-                />
-              </Box>
+              <EmojiPicker
+                getFieldProps={getFieldProps}
+                setFieldValue={setFieldValue}
+              />
             )}
-            <TextField
-              {...getFieldProps("message")}
-              inputProps={{
-                maxLength: 250,
-              }}
-              InputProps={{
-                endAdornment: (
-                  <ChatInputAdornment onClick={toggleEmojiView}>
-                    😃
-                  </ChatInputAdornment>
-                ),
-              }}
-              sx={{ flexGrow: 1 }}
-              size="small"
-              name="message"
-              label="Message"
-              variant="filled"
+            <ChatTextField
+              getFieldProps={getFieldProps}
+              toggleEmojiView={toggleEmojiView}
             />
           </Box>
           <Button

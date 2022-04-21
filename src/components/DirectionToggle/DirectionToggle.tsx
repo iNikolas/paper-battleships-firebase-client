@@ -36,7 +36,7 @@ export const DirectionToggle = () => {
         onClick={handleChangeDirection}
         sx={{
           cursor: "pointer",
-          fontSize: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 3)`,
+          fontSize: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 2.5)`,
           transform: shipDirection === "right" ? "" : "rotate(90deg)",
           "@media screen and (orientation: landscape)": {
             fontSize: (theme) => theme.spacing(4),

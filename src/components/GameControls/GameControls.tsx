@@ -20,7 +20,13 @@ export const GameControls = () => {
   const {
     state: {
       game: {
-        beforeGameState: { fleetPool, gameBoard, battleshipIndexes },
+        serverTime,
+        beforeGameState: {
+          fleetPool,
+          gameBoard,
+          battleshipIndexes,
+          destroyedBattleships,
+        },
       },
     },
     dispatch,
@@ -57,10 +63,11 @@ export const GameControls = () => {
         isEditable: false,
         gameBoard,
         battleshipIndexes,
-        lastMoveTime: Date.now(),
+        destroyedBattleships,
+        lastMoveTime: serverTime,
       });
       batch.update(rivalRef, {
-        lastMoveTime: Date.now(),
+        lastMoveTime: serverTime,
       });
       await batch.commit();
     } catch (error) {
