@@ -32,6 +32,10 @@ export const lobby = (
         console.log(e.message);
       }
       return draft;
+    case Actions.CACHE_USERS_PHOTO_URL:
+      const { photoURL, authorUid } = action.payload;
+      draft.avatars[authorUid] = photoURL;
+      return draft;
     default:
       return draft;
   }

@@ -51,7 +51,8 @@ const API = {
     };
 
     webSocket.onmessage = ({ data: message }) => {
-      const { errors, type, serverTime, ...rest } = JSON.parse(message);
+      const { errors, type, serverTime, photoURL, authorUid, ...rest } =
+        JSON.parse(message);
 
       if (errors)
         return setAlert({
@@ -69,6 +70,12 @@ const API = {
         return dispatch({
           type: Actions.SYNCHRONIZE_GAME_TIME_WITH_SERVER,
           payload: serverTime,
+        });
+
+      if (type === "photo-url" && photoURL && authorUid)
+        return dispatch({
+          type: Actions.CACHE_USERS_PHOTO_URL,
+          payload: { photoURL, authorUid },
         });
 
       dispatch({ type: Actions.UPDATE_LOBBY_STATE, payload: rest });

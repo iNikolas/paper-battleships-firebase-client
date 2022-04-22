@@ -9,6 +9,7 @@ import { GameRequestState, SquareState } from "../store/state";
 import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 import { doc } from "firebase/firestore";
 import { RivalSquare } from "../components/RivalSquare/RivalSquare";
+import { useTheme } from "@mui/material";
 
 export const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
@@ -229,4 +230,16 @@ export const useRivalGameState = (uid: string) => {
 export const playAudio = async (audioLink: string) => {
   const audio = new Audio(audioLink);
   return await audio.play();
+};
+
+export const useProfileBattleshipColor = () => {
+  const firestore = useFirestore();
+  const theme = useTheme();
+  const { data: user } = useUser();
+  const uid = user?.uid;
+
+  const profileDocRef = doc(firestore, `profile/${uid}`);
+  const { data: profile } = useFirestoreDocData(profileDocRef);
+
+  return profile?.battleshipColor;
 };

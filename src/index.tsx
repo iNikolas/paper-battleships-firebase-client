@@ -1,7 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 import {
   FirebaseAppProvider,
   useFirebaseApp,
@@ -11,11 +10,10 @@ import {
 } from "reactfire";
 import firebaseConfig from "./app/firebaseConfig";
 import { getAuth } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { AppProvider, UIContextProvider } from "./context";
+import { AppProvider, ColorModeProvider, UIContextProvider } from "./context";
 import { AppRouter } from "./app/router";
-import theme from "./theme";
 
 const root = createRoot(document.getElementById("root")!);
 
@@ -28,7 +26,12 @@ const Root: React.FC = ({ children }) => {
   return (
     <AuthProvider sdk={auth}>
       <FirestoreProvider sdk={firestore}>
-        <StorageProvider sdk={storage}>{children}</StorageProvider>
+        <StorageProvider sdk={storage}>
+          <ColorModeProvider>
+            <CssBaseline />
+            {children}
+          </ColorModeProvider>
+        </StorageProvider>
       </FirestoreProvider>
     </AuthProvider>
   );
@@ -36,17 +39,14 @@ const Root: React.FC = ({ children }) => {
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <UIContextProvider>
       <AppProvider>
-        <CssBaseline />
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          <UIContextProvider>
-            <Root>
-              <AppRouter />
-            </Root>
-          </UIContextProvider>
+          <Root>
+            <AppRouter />
+          </Root>
         </FirebaseAppProvider>
       </AppProvider>
-    </ThemeProvider>
+    </UIContextProvider>
   </React.StrictMode>
 );

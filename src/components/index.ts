@@ -43,3 +43,5 @@ export * from "./ChatInputAdornment";
 export * from "./EmojiPicker";
 export * from "./ChatTextField";
 export * from "./GamePanelWrapper";
+export * from "./Profile";
+export * from "./ThemeToggle";

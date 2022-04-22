@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "reactfire";
-import { Box, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { MessageProps } from "./types";
 import { convertDateToString } from "../../utils";
+import API from "../../api";
+import { useStore } from "../../context";
 
 export const Message: React.FC<MessageProps> = ({
   message: { text, name, timestamp, imageUrl, uid },
 }) => {
   const { data: user } = useUser();
+  const {
+    state: {
+      lobby: { avatars },
+    },
+  } = useStore();
+
+  const userAvatar = avatars[uid];
+
+  useEffect(() => {
+    if (userAvatar === undefined && uid)
+      API.doSend({ type: "get-user-photo-url", authorUid: uid });
+  }, [userAvatar, uid]);
   return (
     <Box
       sx={{
@@ -28,21 +42,20 @@ export const Message: React.FC<MessageProps> = ({
           src={imageUrl}
         />
       )}
-      <Box
-        sx={{
-          backgroundColor: (theme) =>
-            uid === user?.uid ? theme.palette.grey.A100 : "",
-        }}
-      >
-        <Typography
-          sx={{
-            overflowWrap: "break-word",
-          }}
-          gutterBottom
-          variant="body1"
-        >
-          {text}
-        </Typography>
+      <Box>
+        <Box sx={{ display: "flex" }}>
+          {!imageUrl && <Avatar sx={{ m: 1 }} src={userAvatar || ""} />}
+          <Typography
+            sx={{
+              overflowWrap: "break-word",
+              overflow: "hidden",
+            }}
+            gutterBottom
+            variant="body1"
+          >
+            {text}
+          </Typography>
+        </Box>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{ fontStyle: "italic" }}

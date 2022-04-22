@@ -54,6 +54,16 @@ export interface SynchronizeGameTimeWithServer {
   payload: number;
 }
 
+export interface UsersPhotoURL {
+  authorUid: string;
+  photoURL: string;
+}
+
+export interface CacheUsersPhotoURL {
+  type: LobbyActions.CACHE_USERS_PHOTO_URL;
+  payload: UsersPhotoURL;
+}
+
 export type ActionType =
   | UpdateLobbyStateAction
   | RefuseDitchGameRequestAction
@@ -65,4 +75,5 @@ export type ActionType =
   | PlaceBattleshipOnBoard
   | ResetGameState
   | SynchronizeGameStateWithServer
-  | SynchronizeGameTimeWithServer;
+  | SynchronizeGameTimeWithServer
+  | CacheUsersPhotoURL;

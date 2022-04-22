@@ -16,6 +16,9 @@ export type GameRequestState = { uid?: string } & GameRequestStateMeta;
 export interface LobbyState {
   online: Array<string>;
   gameRequests: Array<GameRequestState>;
+  avatars: {
+    [key: string]: string | null;
+  };
 }
 
 export type Battleships = typeof BATTLESHIPS[number];
@@ -48,6 +51,7 @@ export const initialState = {
   lobby: {
     online: [],
     gameRequests: [],
+    avatars: {},
   },
   game: {
     serverTime: Date.now(),

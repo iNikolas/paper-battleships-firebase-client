@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { UnitProps } from "./types";
+import { useProfileBattleshipColor } from "../../utils";
 
 export const Unit: React.FC<UnitProps> = ({
   right,
@@ -8,12 +9,15 @@ export const Unit: React.FC<UnitProps> = ({
   selected,
   isRival,
 }) => {
+  const battleshipColor = useProfileBattleshipColor();
   return (
     <Box
       sx={{
         width: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 4.5)`,
         height: (theme) => `calc((35vw - ${theme.spacing(10)} - 1px) / 4.5)`,
-        backgroundColor: selected ? "primary.main" : "grey.300",
+        backgroundColor: selected
+          ? "primary.main"
+          : battleshipColor || "grey.300",
         borderBottom: (theme) => `1px solid ${theme.palette.grey["900"]}`,
         borderTop: (theme) => `1px solid ${theme.palette.grey["900"]}`,
         borderLeft: (theme) =>

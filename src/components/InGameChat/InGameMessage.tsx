@@ -7,8 +7,6 @@ export const InGameMessage: React.FC<InGameMessageProps> = ({ message }) => {
     <Paper
       sx={{
         p: 1,
-        borderBottom: (theme) => `1px solid ${theme.palette.grey.A100}`,
-        backgroundColor: (theme) => theme.palette.common.white,
       }}
     >
       <Typography
@@ -25,7 +23,6 @@ export const InGameMessage: React.FC<InGameMessageProps> = ({ message }) => {
         <Typography
           sx={{ fontStyle: "italic" }}
           variant="caption"
-          color="text.secondary"
         >
           {message?.name}
         </Typography>

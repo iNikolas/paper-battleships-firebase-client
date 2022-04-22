@@ -6,6 +6,7 @@ import {
   ALPHABET,
   playAudio,
   useGameData,
+  useProfileBattleshipColor,
   useRivalGameState,
 } from "../../utils";
 import { useStore } from "../../context";
@@ -30,6 +31,7 @@ export const Square: React.FC<SquareProps> = ({ index, isRival }) => {
     },
     dispatch,
   } = useStore();
+  const battleshipColor = useProfileBattleshipColor();
 
   const isHovered = highlightedIndexes.includes(index);
   const isOccupied = isRival
@@ -57,7 +59,7 @@ export const Square: React.FC<SquareProps> = ({ index, isRival }) => {
   useEffect(() => {
     if (isHit && !isRival)
       playAudio(explosionSound).catch((error) => console.log(error.message));
-  }, [isHit]);
+  }, [isHit, isRival]);
 
   useEffect(() => {
     if (winner && rivalsGameState) setRivalsBoard(rivalsGameState.gameBoard);
@@ -74,7 +76,8 @@ export const Square: React.FC<SquareProps> = ({ index, isRival }) => {
         backgroundColor: (theme) => {
           if (isOccupied && isHovered) return theme.palette.error.main;
           if (isBorder && isHovered) return theme.palette.error.light;
-          if (isOccupied || isHit) return theme.palette.grey.A400;
+          if (isOccupied || isHit)
+            return battleshipColor || theme.palette.grey.A400;
           if (isHovered && !isEditable) return "";
           if (isHovered) return theme.palette.grey["300"];
           return "";

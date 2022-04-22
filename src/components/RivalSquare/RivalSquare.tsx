@@ -7,6 +7,7 @@ import {
   ALPHABET,
   markAllSquaresAroundBattleshipOnBoard,
   useGameData,
+  useProfileBattleshipColor,
 } from "../../utils";
 import { UIContext, useStore } from "../../context";
 import { Typography } from "@mui/material";
@@ -27,6 +28,7 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
       game: { serverTime },
     },
   } = useStore();
+  const battleshipColor = useProfileBattleshipColor();
 
   const rivalUid = client || host;
   const playerUid = player?.uid;
@@ -174,7 +176,7 @@ export const RivalSquare: React.FC<RivalSquareProps> = ({ index }) => {
       sx={{
         cursor: isHit || isMiss ? "cursor" : "pointer",
         backgroundColor: (theme) => {
-          if (isHit) return theme.palette.grey.A400;
+          if (isHit) return battleshipColor || theme.palette.grey.A400;
           return "";
         },
       }}

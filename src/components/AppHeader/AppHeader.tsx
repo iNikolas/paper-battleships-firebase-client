@@ -1,9 +1,16 @@
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { signOut, getAuth } from "firebase/auth";
 import { useUser } from "reactfire";
 import jwtDecode from "jwt-decode";
 import {
   AppBar,
+  Avatar,
   Box,
   IconButton,
   Menu,
@@ -18,6 +25,8 @@ import API from "../../api";
 import { Navigation } from "../Navigation";
 import { NAV_LINKS } from "../../app/router/routes";
 import { HOST } from "../../constants";
+import { Profile } from "../Profile";
+import { ThemeToggle } from "../ThemeToggle";
 
 export const AppHeader = () => {
   const { data: user } = useUser();
@@ -25,6 +34,9 @@ export const AppHeader = () => {
   const userAlias = getUserAlias(user?.displayName);
   const timerRef = useRef<null | NodeJS.Timeout>(null);
   const { setAlert } = useContext(UIContext);
+  const [showProfile, setShowProfile] = useState(false);
+
+  const handleShowProfile = () => setShowProfile(true);
 
   const handleSetUserToken = useCallback(() => {
     const timer = timerRef.current;
@@ -101,85 +113,79 @@ export const AppHeader = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Box>
-          <IconButton
-            onClick={handleNavbar}
-            aria-label="navbar"
-            aria-controls="menu"
-            aria-haspopup="true"
-            size="large"
-            edge="start"
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu"
-            anchorEl={anchorNavEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorNavEl)}
-            onClose={handleCloseNavbar}
-            onClick={handleCloseNavbar}
-          >
-            <Navigation links={NAV_LINKS} />
-          </Menu>
-        </Box>
-        <Typography sx={{ flexGrow: 1 }} variant="h6" component="div">
-          Paper Battleships
-        </Typography>
-        <Box>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-          >
-            <Box
-              sx={{
-                borderRadius: "50%",
-                width: (theme) => theme.spacing(4),
-                height: (theme) => theme.spacing(4),
-                backgroundColor: (theme) => theme.palette.grey["400"],
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: (theme) => theme.spacing(2),
-              }}
+    <>
+      <Profile show={showProfile} setShow={setShowProfile} />
+      <AppBar position="static">
+        <Toolbar>
+          <Box>
+            <IconButton
+              onClick={handleNavbar}
+              aria-label="navbar"
+              aria-controls="menu"
+              aria-haspopup="true"
+              size="large"
+              edge="start"
+              color="inherit"
             >
-              {userAlias.toUpperCase()}
-            </Box>
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu"
+              anchorEl={anchorNavEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorNavEl)}
+              onClose={handleCloseNavbar}
+              onClick={handleCloseNavbar}
+            >
+              <Navigation links={NAV_LINKS} />
+            </Menu>
+          </Box>
+          <Typography sx={{ flexGrow: 1 }} variant="h6" component="div">
+            Paper Battleships
+          </Typography>
+          <ThemeToggle />
+          <Box>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <Avatar src={user?.photoURL || ""}>
+                {userAlias.toUpperCase()}
+              </Avatar>
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleShowProfile}>Profile</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
