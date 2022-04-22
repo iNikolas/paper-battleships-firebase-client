@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useGameData } from "../../utils";
 import { UIContext } from "../../context";
+import { Board } from "../Board";
 
 export const GameOverAlert = () => {
   const firestore = useFirestore();
@@ -37,6 +38,7 @@ export const GameOverAlert = () => {
 
   return (
     <Dialog
+      maxWidth={false}
       open={isOver}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -49,6 +51,7 @@ export const GameOverAlert = () => {
               : "You loose it. Good luck next time."
           }`}
         </DialogContentText>
+        <Board isRival />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleGameOver} autoFocus>

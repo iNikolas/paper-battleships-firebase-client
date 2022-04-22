@@ -2,7 +2,9 @@ import { styled } from "@mui/material/styles";
 import { Paper } from "@mui/material";
 import boardSkinImage from "../../images/boardSkin.jpg";
 
-export const BoardWrapper = styled(Paper)(({ theme }) => ({
+export const BoardWrapper = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "isRival",
+})<{ isRival?: boolean }>(({ theme, isRival }) => ({
   marginTop: theme.spacing(4),
   marginBottom: theme.spacing(1),
   marginLeft: theme.spacing(4),
@@ -24,12 +26,12 @@ export const BoardWrapper = styled(Paper)(({ theme }) => ({
     backgroundPosition: "center",
   },
   "@media screen and (orientation: landscape)": {
-    width: "30vw",
-    height: "30vw",
+    width: isRival ? "20vw" : "30vw",
+    height: isRival ? "20vw" : "30vw",
     "&::before": {
-      top: theme.spacing(4),
-      width: "30vw",
-      height: "30vw",
+      top: isRival ? 0 : theme.spacing(4),
+      width: isRival ? "20vw" : "30vw",
+      height: isRival ? "20vw" : "30vw",
     },
   },
 }));

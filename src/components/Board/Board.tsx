@@ -6,8 +6,9 @@ import { BoardWrapper } from "../BoardWrapper";
 import { SquareState } from "../../store/state";
 import { PlayerIsNotReadyNotification } from "../PlayerIsNotReadyNotification";
 import { GamePanel, InGameMessageWindow, GamePanelWrapper } from "../";
+import { BoardProps } from "./BoardProps";
 
-export const Board = () => {
+export const Board: React.FC<BoardProps> = ({ isRival }) => {
   const squares = [];
   const { data: activeGame } = useGameData();
   const { setAlert } = useContext(UIContext);
@@ -34,13 +35,15 @@ export const Board = () => {
       });
   }, [isRivalReady, isEditable, setAlert, isMoving]);
 
-  for (let i = 0; i < 100; i++) squares.push(renderSquare(i));
+  for (let i = 0; i < 100; i++) squares.push(renderSquare(i, false, isRival));
 
   return (
-    <GamePanelWrapper>
-      <GamePanel />
-      <BoardWrapper elevation={6}>{squares}</BoardWrapper>
-      <InGameMessageWindow />
+    <GamePanelWrapper isRival={isRival}>
+      {!isRival && <GamePanel />}
+      <BoardWrapper isRival={isRival} elevation={6}>
+        {squares}
+      </BoardWrapper>
+      {!isRival && <InGameMessageWindow />}
       {!isRivalReady && <PlayerIsNotReadyNotification />}
     </GamePanelWrapper>
   );

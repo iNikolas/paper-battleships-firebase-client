@@ -1,17 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { ExplosionIcon, SquareCaption, SquareWrapper } from "../";
 import { SquareProps } from "./SquareProps";
-import { ALPHABET, playAudio, useGameData } from "../../utils";
+import {
+  ALPHABET,
+  playAudio,
+  useGameData,
+  useRivalGameState,
+} from "../../utils";
 import { useStore } from "../../context";
 import { GameActions } from "../../store/actions/game";
+import { SquareState } from "../../store/state";
 
 const explosionSound = require("../../sounds/explosion.wav");
 
-export const Square: React.FC<SquareProps> = ({ index }) => {
+export const Square: React.FC<SquareProps> = ({ index, isRival }) => {
+  const [rivalsBoard, setRivalsBoard] = useState<Array<SquareState>>(
+    Array(100).fill(null)
+  );
   const {
-    data: { isEditable },
+    data: { isEditable, winner, client, host },
   } = useGameData();
+  const { data: rivalsGameState } = useRivalGameState(client || host);
   const {
     state: {
       game: {
@@ -22,10 +32,18 @@ export const Square: React.FC<SquareProps> = ({ index }) => {
   } = useStore();
 
   const isHovered = highlightedIndexes.includes(index);
-  const isOccupied = gameBoard[index] === "occupied";
-  const isBorder = gameBoard[index] === "border";
-  const isMiss = gameBoard[index] === "miss";
-  const isHit = gameBoard[index] === "hit";
+  const isOccupied = isRival
+    ? rivalsBoard[index] === "occupied"
+    : gameBoard[index] === "occupied";
+  const isBorder = isRival
+    ? rivalsBoard[index] === "border"
+    : gameBoard[index] === "border";
+  const isMiss = isRival
+    ? rivalsBoard[index] === "miss"
+    : gameBoard[index] === "miss";
+  const isHit = isRival
+    ? rivalsBoard[index] === "hit"
+    : gameBoard[index] === "hit";
 
   const handleClick = () =>
     dispatch({ type: GameActions.PLACE_BATTLESHIP_ON_BOARD });
@@ -37,9 +55,13 @@ export const Square: React.FC<SquareProps> = ({ index }) => {
   const handleLeave = () => dispatch({ type: GameActions.REMOVE_HIGHLIGHTED });
 
   useEffect(() => {
-    if (isHit)
+    if (isHit && !isRival)
       playAudio(explosionSound).catch((error) => console.log(error.message));
   }, [isHit]);
+
+  useEffect(() => {
+    if (winner && rivalsGameState) setRivalsBoard(rivalsGameState.gameBoard);
+  }, [winner, rivalsGameState]);
 
   return (
     <SquareWrapper
@@ -48,7 +70,7 @@ export const Square: React.FC<SquareProps> = ({ index }) => {
       onClick={handleClick}
       key={index}
       sx={{
-        cursor: isEditable ? "pointer" : "cursor",
+        cursor: isEditable && !isRival ? "pointer" : "cursor",
         backgroundColor: (theme) => {
           if (isOccupied && isHovered) return theme.palette.error.main;
           if (isBorder && isHovered) return theme.palette.error.light;

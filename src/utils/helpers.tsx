@@ -12,11 +12,11 @@ import { RivalSquare } from "../components/RivalSquare/RivalSquare";
 
 export const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-export const renderSquare = (index: number, rival = false) => {
+export const renderSquare = (index: number, rival = false, isRival = false) => {
   return rival ? (
     <RivalSquare index={index} key={index} />
   ) : (
-    <Square key={index} index={index} />
+    <Square key={index} index={index} isRival={isRival} />
   );
 };
 
