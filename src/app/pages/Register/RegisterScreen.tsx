@@ -31,12 +31,12 @@ export const RegisterScreen: React.FC = () => {
     try {
       const { user } = await createUserWithEmailAndPassword(
         getAuth(),
-        email,
+        email.trim(),
         password
       );
 
-      await updateProfile(user, { displayName });
-      await signInWithEmailAndPassword(getAuth(), email, password);
+      await updateProfile(user, { displayName: displayName.trim() });
+      await signInWithEmailAndPassword(getAuth(), email.trim(), password);
 
       setAlert({
         show: true,

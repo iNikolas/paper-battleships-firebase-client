@@ -24,8 +24,9 @@ export const LoginScreen: React.FC = () => {
 
   const handleSignIn = async (values: FormikValues) => {
     const { email, password } = values;
+    console.log(email);
     try {
-      await signInWithEmailAndPassword(getAuth(), email, password);
+      await signInWithEmailAndPassword(getAuth(), email.trim(), password);
     } catch (error) {
       setAlert({
         show: true,

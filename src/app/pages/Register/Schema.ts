@@ -3,12 +3,14 @@ import * as Yup from "yup";
 const Schema = Yup.object({
   email: Yup.string()
     .email("Please satisfy correct Email pattern.")
+    .trim('The email cannot include leading and trailing spaces')
     .required("This field can not be empty! Please fill it in."),
   displayName: Yup.string()
     .matches(
       /^([A-ZА-Я][a-zа-я]*\s){1,2}[A-ZА-Я][a-zа-я]*$/,
       "At least two words, capitalized. Only letters."
     )
+    .trim('The player name cannot include leading and trailing spaces')
     .required("This field can not be empty."),
   password: Yup.string()
     .min(12, "Minimum password length is 12 symbols.")
