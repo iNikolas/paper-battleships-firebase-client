@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/paper-battleships-firebase-client/static/js/main.d4486179.js",
+    "main.js": "/paper-battleships-firebase-client/static/js/main.7571fdaf.js",
     "static/media/uk_post-1.webp": "/paper-battleships-firebase-client/static/media/uk_post-1.af6da8f6b8e06ae96d85.webp",
-    "static/media/mark.png": "/paper-battleships-firebase-client/static/media/mark.c940cc6e9dd3a9d84a4b.png",
+    "static/media/mark.png": "/paper-battleships-firebase-client/static/media/mark.89cc57e9cbe019ab29a1.png",
     "static/media/pirate 2.png": "/paper-battleships-firebase-client/static/media/pirate 2.5df2f5448c0fe8017fb7.png",
-    "static/media/captain-sailorman.webp": "/paper-battleships-firebase-client/static/media/captain-sailorman.b3b1b0d5f64f07c336cf.webp",
+    "static/media/pirate1.png": "/paper-battleships-firebase-client/static/media/pirate1.e6f15526603071af94e8.png",
+    "static/media/captain-sailorman.webp": "/paper-battleships-firebase-client/static/media/captain-sailorman.80d41ecd781f571c1d53.webp",
     "static/media/boardSkin.jpg": "/paper-battleships-firebase-client/static/media/boardSkin.f68acb6b8afa15e755a8.jpg",
+    "static/media/sailor-man-mascot-design_26838-130.webp": "/paper-battleships-firebase-client/static/media/sailor-man-mascot-design_26838-130.03d9367acecbbcc156d6.webp",
     "static/media/explosion.wav": "/paper-battleships-firebase-client/static/media/explosion.a7ceaa34b0729124232e.wav",
-    "static/media/pirate1.jpg": "/paper-battleships-firebase-client/static/media/pirate1.88a217d6cba57d9c6102.jpg",
-    "static/media/sailor-man-mascot-design_26838-130.webp": "/paper-battleships-firebase-client/static/media/sailor-man-mascot-design_26838-130.2a716efb5f05653fd302.webp",
     "static/media/notification.mp3": "/paper-battleships-firebase-client/static/media/notification.d92af157100c199964ff.mp3",
     "static/media/explosion_icon.svg": "/paper-battleships-firebase-client/static/media/explosion_icon.f8367693c88a7d2df40d5a41cf8c3ead.svg",
     "static/media/logo.svg": "/paper-battleships-firebase-client/static/media/logo.b2f43d19a38a91756d4072284be7ef76.svg",
     "index.html": "/paper-battleships-firebase-client/index.html",
-    "main.d4486179.js.map": "/paper-battleships-firebase-client/static/js/main.d4486179.js.map"
+    "main.7571fdaf.js.map": "/paper-battleships-firebase-client/static/js/main.7571fdaf.js.map"
   },
   "entrypoints": [
-    "static/js/main.d4486179.js"
+    "static/js/main.7571fdaf.js"
   ]
 }
