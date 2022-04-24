@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/paper-battleships-firebase-client/static/js/main.7571fdaf.js",
+    "main.js": "/paper-battleships-firebase-client/static/js/main.a9baa4dc.js",
     "static/media/uk_post-1.webp": "/paper-battleships-firebase-client/static/media/uk_post-1.af6da8f6b8e06ae96d85.webp",
     "static/media/mark.png": "/paper-battleships-firebase-client/static/media/mark.89cc57e9cbe019ab29a1.png",
     "static/media/pirate 2.png": "/paper-battleships-firebase-client/static/media/pirate 2.5df2f5448c0fe8017fb7.png",
@@ -13,9 +13,9 @@
     "static/media/explosion_icon.svg": "/paper-battleships-firebase-client/static/media/explosion_icon.f8367693c88a7d2df40d5a41cf8c3ead.svg",
     "static/media/logo.svg": "/paper-battleships-firebase-client/static/media/logo.b2f43d19a38a91756d4072284be7ef76.svg",
     "index.html": "/paper-battleships-firebase-client/index.html",
-    "main.7571fdaf.js.map": "/paper-battleships-firebase-client/static/js/main.7571fdaf.js.map"
+    "main.a9baa4dc.js.map": "/paper-battleships-firebase-client/static/js/main.a9baa4dc.js.map"
   },
   "entrypoints": [
-    "static/js/main.7571fdaf.js"
+    "static/js/main.a9baa4dc.js"
   ]
 }
