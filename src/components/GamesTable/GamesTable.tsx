@@ -34,7 +34,7 @@ export const GamesTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>("time");
   const [page, setPage] = React.useState(0);
-  const rowsPerPage = 5;
+  const rowsPerPage = 3;
 
   const isActiveSearch = checkIfSearchIsActive(lobby.gameRequests, user);
 

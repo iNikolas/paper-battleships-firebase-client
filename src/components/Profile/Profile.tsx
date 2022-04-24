@@ -15,10 +15,12 @@ import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -26,6 +28,7 @@ import { HexColorPicker } from "react-colorful";
 import { ProfileProps } from "./ProfileProps";
 import { UIContext } from "../../context";
 import { doc, updateDoc } from "firebase/firestore";
+import { DefaultAvatarsPane } from "../DefaultAvatarsPane";
 
 export const Profile: React.FC<ProfileProps> = ({ show, setShow }) => {
   const firestore = useFirestore();
@@ -36,6 +39,7 @@ export const Profile: React.FC<ProfileProps> = ({ show, setShow }) => {
   const { setAlert } = useContext(UIContext);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const [defaultAvatar, setDefaultAvatar] = useState<string>("");
   const [color, setColor] = useState("#aabbcc");
   const avatarURLRef = useRef("");
 
@@ -81,6 +85,8 @@ export const Profile: React.FC<ProfileProps> = ({ show, setShow }) => {
         await updateProfile(user, { photoURL: publicImageUrl });
       }
 
+      if (defaultAvatar) await updateProfile(user, { photoURL: defaultAvatar });
+
       handleClose();
     } catch (error) {
       setAlert({
@@ -105,29 +111,55 @@ export const Profile: React.FC<ProfileProps> = ({ show, setShow }) => {
 
   useEffect(() => {
     if (avatarURLRef.current) URL.revokeObjectURL(avatarURLRef.current);
-    if (show) setSelectedAvatar(null);
+    if (show) {
+      setSelectedAvatar(null);
+      setDefaultAvatar("");
+    }
   }, [show]);
+
+  useEffect(() => {
+    if (defaultAvatar) setSelectedAvatar(null);
+  }, [defaultAvatar]);
+
+  useEffect(() => {
+    if (selectedAvatar) setDefaultAvatar("");
+  }, [selectedAvatar]);
 
   return (
     <Dialog open={show} onClose={handleClose}>
       <DialogContent>
-        <Avatar
+        <DialogContentText sx={{ width: "75%" }}>
+          Pick your own avatar or choose default one:
+        </DialogContentText>
+        <Box
           sx={{
-            width: (theme) => theme.spacing(14),
-            height: (theme) => theme.spacing(14),
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 1,
+            alignItems: "center",
+            mt: 1,
             mb: 1,
           }}
-          src={avatarURLRef.current || user?.photoURL || ""}
-        />
+        >
+          <Avatar
+            sx={{
+              width: (theme) => theme.spacing(14),
+              height: (theme) => theme.spacing(14),
+              mb: 1,
+            }}
+            src={avatarURLRef.current || defaultAvatar || user?.photoURL || ""}
+          />
+          <DefaultAvatarsPane setDefaultAvatar={setDefaultAvatar} />
+        </Box>
         <input onChange={handleAvatarSelection} accept="image/*" type="file" />
         <Typography sx={{ mt: 1 }}>Battleship color: </Typography>
         <HexColorPicker color={color} onChange={setColor} />
       </DialogContent>
       <DialogActions>
-        <Button disabled={isLoading} onClick={handleClose}>
+        <Button variant="outlined" disabled={isLoading} onClick={handleClose}>
           Cancel
         </Button>
-        <Button disabled={isLoading} onClick={handleSubmit}>
+        <Button variant="outlined" disabled={isLoading} onClick={handleSubmit}>
           Save
         </Button>
       </DialogActions>

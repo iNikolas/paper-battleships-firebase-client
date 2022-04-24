@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useUser } from "reactfire";
 import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { MessageProps } from "./types";
 import { convertDateToString } from "../../utils";
@@ -9,19 +8,20 @@ import { useStore } from "../../context";
 export const Message: React.FC<MessageProps> = ({
   message: { text, name, timestamp, imageUrl, uid },
 }) => {
-  const { data: user } = useUser();
   const {
     state: {
       lobby: { avatars },
     },
   } = useStore();
 
+  const APIReadyStatus = API.webSocket?.readyState
+
   const userAvatar = avatars[uid];
 
   useEffect(() => {
     if (userAvatar === undefined && uid)
       API.doSend({ type: "get-user-photo-url", authorUid: uid });
-  }, [userAvatar, uid]);
+  }, [userAvatar, uid, APIReadyStatus]);
   return (
     <Box
       sx={{

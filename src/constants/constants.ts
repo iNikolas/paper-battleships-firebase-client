@@ -1,6 +1,11 @@
 import { StatisticHeadCell } from "../components/RankingTable/types";
 import { GamesHeadCell } from "../components/GamesTable/types";
 
+import sailorMan1Img from "../images/sailor-man-mascot-design_26838-130.webp";
+import sailorMan2Img from "../images/captain-sailorman.webp";
+import pirate1Img from "../images/pirate1.png";
+import pirate2Img from "../images/pirate 2.png";
+
 const isDevelopment = process.env.NODE_ENV === "development";
 
 export const HOST = isDevelopment
@@ -81,4 +86,11 @@ export const GAMES_HEAD_CELLS: readonly GamesHeadCell[] = [
     disablePadding: false,
     label: "Time",
   },
+];
+
+export const DEFAULT_AVATARS = [
+  sailorMan1Img,
+  sailorMan2Img,
+  pirate1Img,
+  pirate2Img,
 ];

@@ -45,3 +45,4 @@ export * from "./ChatTextField";
 export * from "./GamePanelWrapper";
 export * from "./Profile";
 export * from "./ThemeToggle";
+export * from "./DefaultAvatarsPane";

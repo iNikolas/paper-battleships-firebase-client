@@ -94,12 +94,18 @@ export const GameControls = () => {
       }}
     >
       {isEditable && (
-        <Button disabled={!isEditable} onClick={handleReadyClick} size="small">
+        <Button
+          variant="outlined"
+          disabled={!isEditable}
+          onClick={handleReadyClick}
+          size="small"
+        >
           READY
         </Button>
       )}
       {isEditable && (
         <Button
+          variant="outlined"
           disabled={!isEditable}
           onClick={handleResetGameClick}
           size="small"
@@ -108,7 +114,7 @@ export const GameControls = () => {
         </Button>
       )}
       {!isEditable && <InGameChat />}
-      <Button onClick={handleDitchGameClick} size="small">
+      <Button variant="outlined" onClick={handleDitchGameClick} size="small">
         DITCH GAME
       </Button>
     </Box>

@@ -82,7 +82,8 @@ const API = {
     };
   },
   doSend(object: SendType) {
-    this.webSocket?.send(JSON.stringify({ ...object, token: this.token }));
+    if (!this.webSocket || this.webSocket.readyState !== 1) return;
+    this.webSocket.send(JSON.stringify({ ...object, token: this.token }));
   },
 };
 

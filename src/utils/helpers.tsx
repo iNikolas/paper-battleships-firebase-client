@@ -234,7 +234,6 @@ export const playAudio = async (audioLink: string) => {
 
 export const useProfileBattleshipColor = () => {
   const firestore = useFirestore();
-  const theme = useTheme();
   const { data: user } = useUser();
   const uid = user?.uid;
 

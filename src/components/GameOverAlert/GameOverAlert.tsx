@@ -54,7 +54,7 @@ export const GameOverAlert = () => {
         <Board isRival />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleGameOver} autoFocus>
+        <Button variant="outlined" onClick={handleGameOver} autoFocus>
           Understood
         </Button>
       </DialogActions>

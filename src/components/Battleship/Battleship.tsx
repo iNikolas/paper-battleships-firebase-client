@@ -45,7 +45,7 @@ export const Battleship: React.FC<BattleshipProps> = ({
           sx={{
             display: "flex",
             justifyContent: "center",
-            border: (theme) => `1px solid ${theme.palette.grey.A400}`,
+            border: (theme) => theme.palette.mode === 'light' ? `1px solid ${theme.palette.grey.A400}` : `1px solid ${theme.palette.grey["900"]}`,
             maxWidth: "min-content",
             position: "relative",
           }}

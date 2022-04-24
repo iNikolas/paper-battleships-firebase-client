@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useUser } from "reactfire";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import { Button, TextField } from "@mui/material";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { Schema } from "./";
 import { GameForm } from "../";
 import API from "../../api";
@@ -57,12 +59,16 @@ export const CreateGame = () => {
           {!isActiveSearch && (
             <Button
               size="small"
-              sx={{ alignSelf: "stretch" }}
+              sx={{
+                alignSelf: "stretch",
+                minWidth: (theme) => theme.spacing(17),
+              }}
               type="submit"
               variant="contained"
               disabled={
                 isSubmitting || !isValid || !getFieldMeta("description").value
               }
+              startIcon={<SportsEsportsIcon />}
             >
               CREATE GAME
             </Button>
@@ -73,10 +79,11 @@ export const CreateGame = () => {
               size="small"
               sx={{
                 alignSelf: "stretch",
-                minWidth: (theme) => theme.spacing(14),
+                minWidth: (theme) => theme.spacing(17),
               }}
               type="button"
               variant="contained"
+              startIcon={<CancelIcon />}
             >
               CANCEL
             </Button>

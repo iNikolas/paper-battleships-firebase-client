@@ -3,7 +3,7 @@ import { Box, IconButton, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ColorModeContext, UIContext } from "../../context";
+import { ColorModeContext } from "../../context";
 
 export const ThemeToggle = () => {
   const portrait = useMediaQuery("(orientation: portrait)");
