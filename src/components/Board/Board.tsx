@@ -4,7 +4,6 @@ import { GameActions } from "../../store/actions/game";
 import { UIContext, useStore } from "../../context";
 import { BoardWrapper } from "../BoardWrapper";
 import { SquareState } from "../../store/state";
-import { PlayerIsNotReadyNotification } from "../PlayerIsNotReadyNotification";
 import { GamePanel, InGameMessageWindow, GamePanelWrapper } from "../";
 import { BoardProps } from "./BoardProps";
 
@@ -44,7 +43,6 @@ export const Board: React.FC<BoardProps> = ({ isRival }) => {
         {squares}
       </BoardWrapper>
       {!isRival && <InGameMessageWindow />}
-      {!isRivalReady && <PlayerIsNotReadyNotification />}
     </GamePanelWrapper>
   );
 };

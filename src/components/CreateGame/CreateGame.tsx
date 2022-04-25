@@ -61,7 +61,7 @@ export const CreateGame = () => {
               size="small"
               sx={{
                 alignSelf: "stretch",
-                minWidth: (theme) => theme.spacing(17),
+                minWidth: (theme) => theme.spacing(18),
               }}
               type="submit"
               variant="contained"
@@ -79,7 +79,7 @@ export const CreateGame = () => {
               size="small"
               sx={{
                 alignSelf: "stretch",
-                minWidth: (theme) => theme.spacing(17),
+                minWidth: (theme) => theme.spacing(18),
               }}
               type="button"
               variant="contained"
